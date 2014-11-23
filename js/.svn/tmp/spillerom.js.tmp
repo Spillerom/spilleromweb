@@ -1,0 +1,117 @@
+
+leftScroll = function(speed) {
+	// 
+	$("div#game-screen div#layer-2").animate({
+		marginLeft: '+=50px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-3").animate({
+		marginLeft: '+=350px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-4").animate({
+		marginLeft: '+=800px'
+	}, speed, function() {
+	});
+}
+
+rightScroll = function(speed) {
+	// 
+	$("div#game-screen div#layer-2").animate({
+		marginLeft: '-=50px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-3").animate({
+		marginLeft: '-=350px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-4").animate({
+		marginLeft: '-=800px'
+	}, speed, function() {
+	});
+}
+
+resetScroll = function(speed) {
+	// 
+	$("div#game-screen div#layer-2").animate({
+		marginLeft: '0px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-3").animate({
+		marginLeft: '0px'
+	}, speed, function() {
+	});
+	
+	// 
+	$("div#game-screen div#layer-4").animate({
+		marginLeft: '0px'
+	}, speed, function() {
+	});
+}
+
+// 
+setNightLevel = function(step, speed, done) {
+	$(".night").animate({
+		opacity: (step)
+	}, speed, function() {
+		//done();
+	});
+}
+
+// 
+$(document).ready(function() {
+	// RESET 
+	$("div#mail-form").hide();
+	$("div#portfolio").hide();
+	$("div#about").show();
+		
+	// 
+	$("div#portfolio-button").click(function() {
+		
+		$("div#about").hide();
+		$("div#mail-form").hide();
+		$("div#portfolio").show();
+
+		setNightLevel(1, 1000);
+		
+	});
+	
+	// 
+	$("div#company-logo-container").click(function() {
+		$("div#mail-form").hide();
+		$("div#portfolio").hide();
+		$("div#about").show();
+		resetScroll(1000);
+		setNightLevel(0, 1000, function() { alert("test"); });
+	});
+	
+	// 
+	$("div#contact-button").click(function() {
+		$("div#about").hide();
+		$("div#portfolio").hide();
+		$("div#mail-form").show();
+		
+		rightScroll(1000);
+		
+		setNightLevel(0.5, 1000);
+	});
+	
+	// 
+	$('#header ul#social-media-links li#twitter').click(function() {
+		window.location = "http://www.bizloop.com";
+	});	
+	$('#header ul#social-media-links li#facebook').click(function() {
+		window.location = "http://www.facebook.com/#!/pages/Spillerom/190823858245";
+	});	
+	
+});

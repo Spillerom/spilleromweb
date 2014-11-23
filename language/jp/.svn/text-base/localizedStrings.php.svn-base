@@ -1,0 +1,287 @@
+<?php 
+
+$localizedStrings = array(
+	'PAGE_TITLE' => 'The Patient Journal',
+	'PAGE_DESCRIPTION' => 'Pasientjournalen - perfekt for alle..',
+	'CREATE_ACCOUNT_TEXT_HEADER' => 'Har du ingen konto kan du lage en her.',
+	'CREATE_ACCOUNT_TEXT_BODY' => 'Første månded er helt gratis, og du kan si opp når du vil.',
+	'CREATE_ACCOUNT_TEXT_BUTTON' => 'Har du ingen konto kan du lage en her.',
+	'CREATE_ACCOUNT_PROFILE_HEADER' => 'Kontaktperson',
+	'CREATE_ACCOUNT_PROFILE_ABOUT_TEXT_HEADER' => 'Vi trenger også en kontaktperson.',
+	'CREATE_ACCOUNT_PROFILE_ABOUT_TEXT_BODY' => 'I tillegg til å være oppført som kontaktperson for din bedrift, vil denne personen også bli oppført som terapaut.',
+	'CREATE_ACCOUNT_COMPANY_HEADER' => 'Firmadetaljer',
+	'CREATE_ACCOUNT_COMPANY_ABOUT_TEXT_HEADER' => 'Firmadetaljer',
+	'CREATE_ACCOUNT_COMPANY_ABOUT_TEXT_BODY' => 'Dette trenger vi så vi kan knytte dine pasienter opp mot din bedrift.',
+	'LOG_IN' => 'Logg inn',
+	'LOG_OUT' => 'Logg ut',
+	'TITLEBAR_WELCOME' => 'Velkommen',
+	'PROFILE_LOGIN_HEADERTEXT' => 'Logg inn med brukernavn og passord',
+	'CREATE_PROFILE_TITLEBAR_TEXT' => 'Opprett profil',
+	'REGISTER_COMPANY_TITLEBAR_TEXT' => 'Registrer din bedrift', 
+	'COMPLETE_REGISTRATION' => 'Lagre',
+	'SEARCH' => 'Søk',
+	'SEARCH_DESCRIPTION' => 'Søk på navn, etternavn eller telfonnummer',
+	'GO_BACK' => 'Tilbake',
+	'NEXT_STEP' => 'Neste steg',
+	'SAVE' => 'Lagre', 
+	'EDIT' => 'Rediger',  
+	'DELETE' => 'Slett',  
+	'SEND' => 'Send',  
+	'PERSON_LIST_EMTPY' => 'Fant ingen timerbestillinger',
+	'ADD_PERSON' => 'Ny person',
+	'ADD_WORK_PLACE' => 'Legg til arbeidsplass',
+	'WORK_PLACE_PRIVATE' => 'Privat',
+	'PERSONSVIEW_HEADER_TEXT' => 'Pasientliste',
+	'PROFILE_HEADER_TEXT' => 'Profil', 
+	'PROFILE_PASSWORD' => 'Passord',
+	'PROFILE_REPEAT_PASSWORD' => 'Gjenta passord',
+	'PROFILE_RECOVERY_ENTER_EMAIL' => 'Skriv din e-post',
+	'PROFILE_RECOVERY_DID_YOU_FORGET_PASSWORD' => 'Glemt ditt passord? Klikk her',
+	'PROFILE_RECOVERY_BACK_TO_LOGIN' => 'Tilbake til login',
+	'PROFILE_ROLE' => 'Rolle',
+	'PROFILE_ROLE_STAFF' => 'Terapaut',
+	'PROFILE_ROLE_PATIENT' => 'Pasient',
+	'PROFILE_FIRST_NAME' => 'Fornavn', 
+	'PROFILE_LAST_NAME' => 'Etternavn', 
+	'PROFILE_BIRTHDAY' => 'Fødselsdag', 
+	'PROFILE_USERNAME' => 'E-post', 
+	'PROFILE_SEND_EMAIL' => 'Send e-post', 
+	'PROFILE_PHONE' => 'Telefon',  
+	'PROFILE_ADDRESS' => 'Adresse',  
+	'PROFILE_POSTCODE' => 'Postkode',  
+	'PROFILE_CITY' => 'By',  
+	'PROFILE_SEX' => 'Kjønn',  
+	'PROFILE_MALE' => 'Mann',  
+	'PROFILE_FEMALE' => 'Dame',  
+	'PROFILE_PREGNANT' => 'Gravid',
+	'PROFILE_NAME_OF_YOUR_COMPANY' => 'Navn på bedriften din', 
+	'PROFILE_WORKPLACE' => 'Arbeidsplass', 
+	'PROFILE_WORKPLACE_PRIVATE' => 'Privat', 
+	'NEW_JOURNAL' => 'Ny journal', 
+	'TREATMENT_LIST_HEADLINE' => 'Behandling',
+	'TREATED_BY' => 'Behandlet av',
+	'PATIENT_REASON' => 'Henvendelse/grunn', 
+	'SYMPTHOMS' => 'Symptomer', 
+	'WORKED_WITH' => 'Jobbet med', 
+	'BODY_PART' => 'Kroppsdel', 
+	'LOCALIZATION' => 'Lokalisasjon', 
+	'MUSCLE' => 'Muskel',
+	'PASSWORD_RECOVERY_SUBJECT' => 'Nytt passord',	
+	'PASSWORD_RECOVERY_HELLO' => 'Hallo',
+	'PASSWORD_RECOVERY_NEW_PASSWORD_IS' => 'Ditt nye passord er',
+	'PASSWORD_RECOVERY_YOU_CAN_CHANGE' => 'Du kan forandre dette neste gang du logger inn',
+	'BEST_REGARDS' => 'Med vennelig hilsen',
+	'PASSWORD_RECOVERY_EMAIL_SENT' => 'E-post ble sent',
+	'PASSWORD_RECOVERY_ERROR_OCCURD_EMAIL_NOT_SENT' => 'Noe galt skjedde, e-post ble ikke sent',
+	'PASSWORD_RECOVERY_EMAIL_NOT_FOUND_IN_SYSTEM' => 'E-posten ble ikke funnet i systemet',
+	'CONTACT_PERSON_FOR' => 'Kontaktperson for',
+	
+	// PATIENT HISTORY
+	'PATIENT_HISTPRY_HEADER' => 'Patient history',
+
+	'PATIENT_HISTORY_WANTS_HELP_WITH' => 'Vil ha hjelp med',
+	'PATIENT_HISTORY_THIS' => '"Noen stikkord.."',
+
+	'PATIENT_HISTORY_PROBLEMS_STARTING_TIME' => 'Ca. når/hvor oppstod problemet?',
+	'PATIENT_HISTORY_PROBLEMS_STARTED_HOW' => 'Hvordan oppstod problemet?',
+
+	'PATIENT_HISTORY_PREVIOUS_TREATMENTS' => 'Har fått behandling før?',
+	'PATIENT_HISTORY_PREVIOUS_TREATMENTS_THAT_WORKED' => 'Dette har hjulpet:',
+
+	'PATIENT_HISTORY_USING_MEDICINES' => 'Bruker medesiner',
+
+	'PATIENT_HISTORY_OTHER_INFORMATION' => 'Annen info',	
+
+	// 		
+	'SCHEDULE_NEXT_APPOINTMENT' => 'Sett opp neste time',
+	'DATE_AND_TIME_NEXT_APPOINTMENT' => 'Dato/tid for time',
+	'THERAPIST_LOGIN_INFO' => 'Terapautens Google-konto',
+		
+	'JOURNAL_LIST_EMPTY' => 'Listen over journaler er tom', 
+	'JOURNAL_INJURY_EVALUATION' => 'Utredning av skade',
+		
+	'DAY_SHORT_MONDAY' => 'Man',
+	'DAY_SHORT_TUESDAY' => 'Tirs',
+	'DAY_SHORT_WEDNESDAY' => 'Ons',
+	'DAY_SHORT_THURSDAY' => 'Tors',
+	'DAY_SHORT_FRIDAY' => 'Fre',
+	'DAY_SHORT_SATURDAY' => 'Lør',
+	'DAY_SHORT_SUNDAY' => 'Søn',
+		
+	'MONTH_SHORT_JANUARY' => 'Jan',
+	'MONTH_SHORT_FEBRUARY' => 'Feb',
+	'MONTH_SHORT_MARCH' => 'Mar',
+	'MONTH_SHORT_APRIL' => 'Apr',
+	'MONTH_SHORT_MAY' => 'Mai',
+	'MONTH_SHORT_JUNE' => 'Jun',
+	'MONTH_SHORT_JULY' => 'Jul',
+	'MONTH_SHORT_AUGUST' => 'Aug',
+	'MONTH_SHORT_SEPTEMBER' => 'Sep',
+	'MONTH_SHORT_OCTOBER' => 'Okt',
+	'MONTH_SHORT_NOVEMBER' => 'Nov',
+	'MONTH_SHORT_DECEMBER' => 'Des',
+		
+	'MONTH_LONG_JANUARY' => 'Januar',
+	'MONTH_LONG_FEBRUARY' => 'Februar',
+	'MONTH_LONG_MARCH' => 'Marsj',
+	'MONTH_LONG_APRIL' => 'April',
+	'MONTH_LONG_MAY' => 'Mai',
+	'MONTH_LONG_JUNE' => 'Juni',
+	'MONTH_LONG_JULY' => 'Juli',
+	'MONTH_LONG_AUGUST' => 'August',
+	'MONTH_LONG_SEPTEMBER' => 'September',
+	'MONTH_LONG_OCTOBER' => 'Oktober',
+	'MONTH_LONG_NOVEMBER' => 'November',
+	'MONTH_LONG_DECEMBER' => 'Desember',
+		
+	'SEARCH_BY_APPOINTMENT' => 'Søk på time',
+		
+	'TIME_ONLY' => 'Time only', // Not sure what this is used for (word in the calendar)
+	'TIME' => 'Tid',
+	'HOUR' => 'Time',
+	'MINUTE' => 'Minutt',
+	'SECCOND' => 'Sekund',
+	'NOW' => 'Nå',
+	'CLOSE' => 'Lukk',
+		
+	'DEVELOPED_BY' => 'Utviklet av Spillerom AS'
+);
+
+// 
+$previousTreatments = array(
+	'0' => 'Lege',
+	'1' => 'Kiropraktor',
+	'2' => 'Fysioterapaut',
+	'3' => 'Naprapat',
+	'4' => 'Ostiopat',
+	'5' => 'Akupunktør',
+	'6' => 'Psykolog',
+	'7' => 'Psykriater',
+	'8' => 'Massasje',
+	'100' => 'annet'
+);
+
+// 
+$predefinedReportWords = array(
+	// 
+	'PATIENT_REASON' => array(
+		'SYMPTHOMS' => array(
+
+			'Hodepine', 
+			'Migrene', 
+			'Smerter', 
+			'Iling', 
+			'Dovning', 
+			'Diffuse smerter', 
+			'Press smerte', 
+			'Verking', 
+			'Betennelse', 
+			'Slitasje', 
+			'Isjialgi', 
+			'Prolaps', 
+			'Strekk', 
+			'Krampe', 
+			'Ruptur', 
+			'Total ruptur', 
+			'Blødning', 
+			'Hevelse'
+		)
+	),
+  
+	// 
+	'WORKED_WITH' => array(
+		// 
+		'BODY_PART' => array(
+			'Rygg', 
+			'Nakke', 
+			'Nakkerosett', 
+			'Hals', 
+			'Skulder',  
+			'Overarm', 
+			'Underarm', 
+			'Hånd', 
+			'Bryst', 
+			'Mage', 
+			'Sete', 
+			'Hofte', 
+			'Lår', 
+			'Legg', 
+			'Fot'
+		),
+		
+		// 
+		'LOCALIZATION' => array(
+			'Høyre', 
+			'Venstre', 
+			'Bilateralt', 
+			'Over', 
+			'Under', 
+			'Fremre', 
+			'Bakre', 
+			'Nedre', 
+			'Midtre', 
+			'Lateralt', 
+			'Medialt', 
+			'Major', 
+			'Minor', 
+			'Kors', 
+			'Ledd'
+		),
+		
+		// 
+		'MUSCLE' => array(
+			'Trapezius', 
+			'Rhomboideus', 
+			'Infraspinatus', 
+			'Supraspinatus', 
+			'Subscapularis', 
+			'Deltoideus', 
+			'Pectoralis', 
+			'Erector spinae', 
+			'Quadratus Lumborum', 
+			'Iliopsoas', 
+			'Tractus', 
+			'Tensor fasciae latae', 
+			'Quadriceps', 
+			'Vastus', 
+			'Gluteus maximus', 
+			'Gluteus medius/minimus', 
+			'Hamstrings', 
+			'Abduktor', 
+			'Tibialis', 
+			'Gastrocnemius', 
+			'Soleus', 
+			'Fibularis', 
+			'Akilles'
+		)
+	)  
+);
+
+//
+$predefinedHistoryWords = array(
+	//
+	'PATIENT_REASON' => array(
+		'SYMPTHOMS' => array(
+			'Hodepine',
+			'Migrene',
+			'Smerter',
+			'Iling',
+			'Dovning',
+			'Diffuse smerter',
+			'Press smerte',
+			'Verking',
+			'Betennelse',
+			'Slitasje',
+			'Isjialgi',
+			'Prolaps',
+			'Strekk',
+			'Krampe',
+			'Ruptur',
+			'Total ruptur',
+			'Blødning',
+			'Hevelse'
+		)
+	)
+);
+
+?>

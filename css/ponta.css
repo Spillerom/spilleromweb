@@ -1,0 +1,315 @@
+
+#game-screen {
+	position:absolute;
+	overflow:hidden;
+	padding: 0;
+	margin: 0;
+	width:inherit;
+	height:inherit;
+	max-height:1000px;
+}
+
+.layer {
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+
+div#layer-1 {
+	min-height:500px;
+}
+
+div#layer-2 {
+	min-height:600px;
+	position:fixed;
+	bottom:0;
+}
+
+div#layer-3 {
+	min-height:600px;
+	position:fixed;
+	bottom:0;
+}
+
+div#layer-4 {
+	position:fixed;
+	min-height:500px;
+	bottom:0;
+	pointer-events:none;
+	z-index:9;
+}
+
+/* NEBOUS */
+.nebou {
+	cursor:pointer;
+}
+
+/* PINK NEBOU */
+#nebou-pink {
+	position:absolute;
+	bottom:268px;
+	width:258px;
+	height:329px;
+}
+	#nebou-pink div.day, #nebou-pink div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	#nebou-pink div.day {
+		background-image:url(../data/ponta-elements/day/NebouPink.png);
+	}
+	#nebou-pink div.night {
+		background-image:url(../data/ponta-elements/night/NebouPink.png);
+	}
+
+/* BLUE NEBOU */
+#nebou-blue {
+	position:absolute;
+	bottom:268px;
+	width:249px;
+	height:329px;
+}
+	#nebou-blue div.day, #nebou-blue div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	#nebou-blue div.day {
+		background-image:url(../data/ponta-elements/day/NebouBlue.png);
+	}
+	#nebou-blue div.night {
+		background-image:url(../data/ponta-elements/night/NebouBlue.png);
+	}
+
+/* BLUE PURPLE */
+#nebou-purple {
+	position:absolute;
+	bottom:268px;
+	width:253px;
+	height:329px;
+}
+	#nebou-purple div.day, #nebou-purple div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	#nebou-purple div.day {
+		background-image:url(../data/ponta-elements/day/NebouPurple.png);
+	}
+	#nebou-purple div.night {
+		background-image:url(../data/ponta-elements/night/NebouPurple.png);
+	}
+
+/* NINJA NEBOU */
+#nebou-ninja {
+	position:absolute;
+	bottom:268px;
+	width:264px;
+	height:336px;
+}
+	#nebou-ninja div.day, #nebou-ninja div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	#nebou-ninja div.day {
+		background-image:url(../data/ponta-elements/day/NebouNinja.png);
+	}
+	#nebou-ninja div.night {
+		background-image:url(../data/ponta-elements/night/NebouNinja.png);
+	}
+
+/* USAGI NEBOU */
+#nebou-usagi {
+	position:absolute;
+	bottom:268px;
+	width:639px;
+	height:682px;
+}
+	#nebou-usagi div.day, #nebou-usagi div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	#nebou-usagi div.day {
+		background-image:url(../data/ponta-elements/day/NebouUsagi.png);
+	}
+	#nebou-usagi div.night {
+		background-image:url(../data/ponta-elements/night/NebouUsagi.png);
+	}
+
+/* SKY */
+.background-sky {
+	position:absolute;
+	bottom:0;
+	width:100%;
+	height:1000px;
+}
+	.background-sky div.day, .background-sky div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.background-sky div.day {
+		background-image:url(../data/ponta-elements/day/BackgroundSky.png);
+	}
+	.background-sky div.night {
+		background-image:url(../data/ponta-elements/night/BackgroundSky.png);
+	}
+
+/* CLOUD */
+.background-cloud {
+	position:absolute;
+	bottom:380px;
+	width:1044px;
+	height:479px;
+}
+	.background-cloud div.day, .background-cloud div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.background-cloud div.day {
+		background-image:url(../data/ponta-elements/day/BackgroundCloud.png);
+	}
+	.background-cloud div.night {
+		background-image:url(../data/ponta-elements/night/BackgroundCloud.png);
+	}
+
+/* FAR AWAY OBJECT */
+.far-away-object {
+	position:absolute;
+	top:0;
+	width:808px;
+	height:375px;
+}
+	.far-away-object div.day, .far-away-object div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.far-away-object div.day {
+		background-image:url(../data/ponta-elements/day/FarAwayObject.png);
+	}
+	.far-away-object div.night {
+		background-image:url(../data/ponta-elements/night/FarAwayObject.png);
+	}
+
+/* MOUNTAIN UP */
+.background-mountain {
+	position:absolute;
+	bottom:250px;
+	width:1517px;
+	height:565px;
+}
+	.background-mountain div.day, .background-mountain div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.background-mountain div.day {
+		background-image:url(../data/ponta-elements/day/BackgroundMountain.png);
+	}
+	.background-mountain div.night {
+		background-image:url(../data/ponta-elements/night/BackgroundMountain.png);
+	}
+	
+/* MOUNTAIN DOWN */
+.background-mountain-down {
+	position:absolute;
+	bottom:550px;
+	width:1517px;
+	height:565px;
+	max-height:700px;
+	min-height:700px;
+}
+	.background-mountain-down div.day, .background-mountain-down div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.background-mountain-down div.day {
+		background-image:url(../data/ponta-elements/day/BackgroundMountainDown.png);
+	}
+	.background-mountain-down div.night {
+		background-image:url(../data/ponta-elements/night/BackgroundMountainDown.png);
+	}
+	
+/* GROUND */
+.ground {
+	position:absolute;
+	bottom:0;
+	width:5000px;
+	height:268px;
+}
+	.ground div.day, .ground div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.ground div.day {
+		background-image:url(../data/ponta-elements/day/Ground.png);
+	}
+	.ground div.night {
+		background-image:url(../data/ponta-elements/night/Ground.png);
+	}
+
+/* BACKGROUND BUSH */
+.background-bush {
+	position:absolute;
+	bottom:268px;
+	width:5000px;
+	height:219px;
+}
+	.background-bush div.day, .background-bush div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.background-bush div.day {
+		background-image:url(../data/ponta-elements/day/BackgroundBushes.png);
+	}
+	.background-bush div.night {
+		background-image:url(../data/ponta-elements/night/BackgroundBushes.png);
+	}
+	
+/* FOREGROUND BUSH */
+.foreground-bush {
+	position:absolute;
+	bottom:268px;
+	width:292px;
+	height:116px;
+}
+	.foreground-bush div.day, .foreground-bush div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.foreground-bush div.day {
+		background-image:url(../data/ponta-elements/day/ForegroundBush.png);
+	}
+	.foreground-bush div.night {
+		background-image:url(../data/ponta-elements/night/ForegroundBush.png);
+	}
+	
+	
+/* FOREGROUND */
+.foreground {
+	position:absolute;
+	bottom:0;
+	width:5000px;
+	height:500px;
+}
+	.foreground div.day, .foreground div.night {
+		position:absolute;
+		width:inherit;
+		height:inherit;
+	}
+	.foreground div.day {
+		background-image:url(../data/ponta-elements/day/Foreground.png);
+	}
+	.foreground div.night {
+		background-image:url(../data/ponta-elements/night/Foreground.png);
+	}
+

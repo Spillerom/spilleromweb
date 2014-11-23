@@ -1,0 +1,42 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script></head>
+	<script>
+	// SETUP SOUNDS:
+	$('#start-sound-btn').click(function() {
+		var soundFilePath = $(this).find('.metadata').text();
+		$("#jquery-jplayer").jPlayer({
+			ready: function () {
+				$(this).jPlayer("setMedia", {
+					wav: soundFilePath + '.wav',
+					mp3: soundFilePath + '.mp3'
+				});
+			},
+			preload: "none", 
+			swfPath: "",
+			//solution: "flash, html",
+			supplied: "mp3, wav",
+			cssSelectorAncestor: "",
+			cssSelector: {
+				play: "#play",
+				pause: "#pause",
+			},
+			size: {
+				width: "0",
+				height: "0"
+			}
+		});
+	});	
+	</script>
+<body>
+	<div id="start-sound-btn">
+		<div class="metadata">data/music/compicbakery_load.mp3</div>
+		<a href="javascript:;" id="play"><span>Spill av lyd</span></a>
+		<a href="javascript:;" id="pause"><span>Demp lyd</span></a>
+	</div>
+	<div id="jquery-jplayer" class="jp-jplayer"></div>
+</body>
+</html>
