@@ -38,7 +38,7 @@
 		require_once("mail-form.php");
 		?>
 		
-		<!-- FLAGS -->
+		<!-- FLAGS
 		<div id="flags-bar">
 			<a href="http://localhost:8888/spilleromweb/?language=no">
 				<img alt="Norsk" src="data/flag_no<?php GetFlagStatus($language=='no'); ?>.png">
@@ -50,7 +50,7 @@
 				<img alt="日本語" src="data/flag_jp<?php GetFlagStatus($language=='jp'); ?>.png">
 			</a>
 		</div>
-		
+		-->
 		<!-- MENU BAR -->
 		<div id="manaka">
 			<div id="background"></div>
