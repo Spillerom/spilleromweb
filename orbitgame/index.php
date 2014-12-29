@@ -140,8 +140,6 @@
 		// 
 		var r = planet.radius;
 
-		var solutions = [];
-
 		var x1 = p1.x-planet.x, y1 = p1.y-planet.y;
 		var x2 = p2.x-planet.x, y2 = p2.y-planet.y;
 
@@ -155,21 +153,28 @@
 
 		var incidence = Math.pow(r,2)*Math.pow(dr,2)-Math.pow(D,2);
 
-		var q1 = new Vector(0, 0);
-		var q2 = new Vector(0, 0);
+		if( incidence >= 0 ) {
+			var q1 = new Vector(0, 0);
+			var q2 = new Vector(0, 0);
 
+			// 
+			q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
+			q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
 
-		// 
-		q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
-		q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
+			q1.y = (((-D)*dx + Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
+			q2.y = (((-D)*dx - Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
 
-		q1.y = (((-D)*dx + Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
-		q2.y = (((-D)*dx - Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
+			var tmp1 = new Vector(q1.x - p1.x, q1.y - p1.y);
+			var tmp2 = new Vector(q2.x - p1.x, q2.y - p1.y);
 
-		solutions.push(q1);
-		solutions.push(q2);
-
-		return solutions;
+			if( tmp1.length() < tmp2.length() ) {
+				return q1;
+			} else {
+				return q2;
+			}
+		} else {
+			return 0;
+		}
 	}
 
 	// 
@@ -192,22 +197,21 @@
 				r.x = planet.x - currPos.x;
 				r.y = planet.y - currPos.y;
 
-				if( r.length() <= planet.radius ) {
-					step.color = '#ff0000';
-					step.radius = 6;
-
+				if( r.length() <= planet.radius*2 ) {
 					if( steps.length > 1) {
-						var solutions = intersectionLineCircle(prevPos, currPos, planet);
+						var q = intersectionLineCircle(prevPos, currPos, planet);
 
-						//console.log(solutions);
+						if( q!= 0 ) {
+							//var tmp = new Vector(q.x - prevPos.x, );
 
-						step.position.x = solutions[1].x;
-						step.position.y = solutions[1].y;
-						step.color = '#000000';
-						step.radius = 9;
+							step.position.x = q.x;
+							step.position.y = q.y;
+							step.color = '#000000';
+							step.radius = 9;
 
-						isRunning = false;
-						break;
+							isRunning = false;
+							break;
+						}
 					}
 
 				}
