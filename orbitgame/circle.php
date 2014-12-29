@@ -24,7 +24,7 @@
 		this.position = position;
 		this.radius = radius;
 		this.color = color;
-	}
+	};
 
 	// 
 	var Vector = function(x, y) {
@@ -132,39 +132,48 @@
 
 	// 
 	var intersectionLineCircle = function(p1, p2, planet) {
-		// 
+
+
 		var sgn = function(x) {
-			return x<0 ? -1 : 1;
+			if( x<0 )
+				return -1;
+			else
+				return 1;
 		}
 
-		// 
 		var r = planet.radius;
 
 		var solutions = [];
 
-		var x1 = p1.x-planet.x, y1 = p1.y-planet.y;
-		var x2 = p2.x-planet.x, y2 = p2.y-planet.y;
+		var x1 = p1.x-planet.x;
+		var y1 = p1.y-planet.y;
+
+		//console.log(x1 + ' ' + y1);
+
+		var x2 = p2.x-planet.x;
+		var y2 = p2.y-planet.y;
+
+		//console.log(x2 + ' ' + y2);
 
 		var dx = x2 - x1;
 		var dy = y2 - y1;
 
-		insideDr = Math.pow(dx,2) + Math.pow(dy,2);
-		var dr = Math.sqrt(insideDr);
+		var dr = Math.sqrt(dx^2 + dy^2);
 
 		var D = x1*y2 - x2*y1;
 
-		var incidence = Math.pow(r,2)*Math.pow(dr,2)-Math.pow(D,2);
+		var incidence = (r^2)*(dr^2)-(D^2);
 
 		var q1 = new Vector(0, 0);
 		var q2 = new Vector(0, 0);
 
+		// 
+		q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / (dr^2)) + planet.x;
+		q1.y = ((-D*dy + Math.abs(dy)*Math.sqrt(incidence)) / (dr^2)) + planet.y;
 
 		// 
-		q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
-		q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
-
-		q1.y = (((-D)*dx + Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
-		q2.y = (((-D)*dx - Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
+		q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / (dr^2)) + planet.x;
+		q2.y = ((-D*dy - Math.abs(dy)*Math.sqrt(incidence)) / (dr^2)) + planet.y;
 
 		solutions.push(q1);
 		solutions.push(q2);
@@ -201,8 +210,8 @@
 
 						//console.log(solutions);
 
-						step.position.x = solutions[1].x;
-						step.position.y = solutions[1].y;
+						step.x = solutions[0].x;
+						step.y = solutions[0].y;
 						step.color = '#000000';
 						step.radius = 9;
 
