@@ -73,6 +73,8 @@
 	var prevGameState = GameState.MOVE_MOUSE;
 
 	var steps = [];
+	steps.length = 65536;
+	var numSteps = 0;
 
 	// 
 	var canvas = document.getElementById('myCanvas');
@@ -110,21 +112,23 @@
 		this.borderColor = borderColor;
 	}
 
-	var startPos = new Vector(0, 0);
+	var startPos = new Vector(100, 300);
     var player = new Planet(startPos.x, startPos.y, 3, 0.005, '#0000ff', '#0000ff');
 
     var planets = [
-    			new Planet(412, 212, 60, 640000, 'gray', 'gray'),
-    			new Planet(812, 112, 50, 256000, 'gray', 'gray'),
-    			new Planet(812, 512, 30, 9600, 'gray', 'gray'),
+				new Planet(412, 212, 60, 64000, 'gray', 'gray'),
+				new Planet(812, 112, 50, 25600, 'gray', 'gray'),
+				new Planet(812, 512, 30, 9600, 'gray', 'gray'),
+				new Planet(112, 512, 30, 5600, 'gray', 'gray'),
+				new Planet(800, 300, 30, 9600, 'gray', 'gray'),
     			player
     			];
 
     // 
-    var F = new Vector(1700, 0);
+    var F = new Vector(170, 0);
 	var startForce = function() {
-		F.x = (mousePos.x - startPos.x) * 10.0;
-		F.y = (mousePos.y - startPos.y) * 10.0;
+		F.x = (mousePos.x - startPos.x) * 5.5;
+		F.y = (mousePos.y - startPos.y) * 5.5;
 	}
 
 	// 
@@ -180,7 +184,7 @@
 		var r = new Vector(0, 0);
 		var drag = 0;
 
-		steps.length = 0;
+		numSteps = 0;
 
 		var currPos = new Vector(startPos.x, startPos.y);
 		var prevPos = new Vector(startPos.x, startPos.y);
@@ -194,7 +198,7 @@
 				r.x = planet.x - currPos.x;
 				r.y = planet.y - currPos.y;
 
-				if( r.length() <= planet.radius*3 ) {
+				if( r.length() <= planet.radius*1.5 ) {
 					if( steps.length > 1) {
 						var q = intersectionLineCircle(prevPos, currPos, planet);
 
@@ -217,7 +221,7 @@
 				//drag = 1 - 1/((planet.mass)*Math.pow(r.length()));
 				//drag = 1/(Math.pow(r.length())/planet.mass );
 				drag = 1/((r.length()*r.length()) / planet.mass );
-console.log(drag);
+
 				F.x += r.x * drag;
 				F.y += r.y * drag;
 
@@ -225,11 +229,7 @@ console.log(drag);
 				//F.y += Math.sqrt((6.67259*Math.pow(10,-11) * planet.mass)/r.length());
 			}
 
-			steps.push(step);
-			if( steps.length > 1000 ) {
-				isRunning = false;
-				break;
-			}
+			steps[numSteps] = step;
 
 			prevPos.x = currPos.x;
 			prevPos.y = currPos.y;
@@ -237,6 +237,12 @@ console.log(drag);
 			currPos.x += F.x * 0.01;
 			currPos.y += F.y * 0.01;
 
+			// 
+			numSteps++;
+			if( numSteps >= steps.length-1 ) {
+				isRunning = false;
+				break;
+			}
     	}
 
     	console.log(steps.length);
@@ -273,8 +279,8 @@ console.log(drag);
     	}
 
 		// Render travel path
-		if( steps.length > 1 ) {
-			for( i=0; i<steps.length-1; i++ ) {
+		if( numSteps > 1 ) {
+			for( i=0; i<numSteps-1; i++ ) {
 				step = steps[i];
 				nextStep = steps[i+1];
 
