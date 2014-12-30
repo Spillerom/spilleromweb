@@ -114,9 +114,9 @@
     var player = new Planet(startPos.x, startPos.y, 3, 0.005, '#0000ff', '#0000ff');
 
     var planets = [
-    			new Planet(412, 212, 60, 0.001, 'gray', 'gray'),
-    			new Planet(812, 112, 50, 0.0002, 'gray', 'gray'),
-    			new Planet(812, 512, 30, 0.0001, 'gray', 'gray'),
+    			new Planet(412, 212, 60, 640000, 'gray', 'gray'),
+    			new Planet(812, 112, 50, 256000, 'gray', 'gray'),
+    			new Planet(812, 512, 30, 9600, 'gray', 'gray'),
     			player
     			];
 
@@ -125,9 +125,6 @@
 	var startForce = function() {
 		F.x = (mousePos.x - startPos.x) * 10.0;
 		F.y = (mousePos.y - startPos.y) * 10.0;
-
-		//F.x = 1700;
-		//F.y = 0;
 	}
 
 	// 
@@ -197,13 +194,11 @@
 				r.x = planet.x - currPos.x;
 				r.y = planet.y - currPos.y;
 
-				if( r.length() <= planet.radius*2 ) {
+				if( r.length() <= planet.radius*3 ) {
 					if( steps.length > 1) {
 						var q = intersectionLineCircle(prevPos, currPos, planet);
 
 						if( q!= 0 ) {
-							//var tmp = new Vector(q.x - prevPos.x, );
-
 							step.position.x = q.x;
 							step.position.y = q.y;
 							step.color = '#000000';
@@ -216,12 +211,25 @@
 
 				}
 
-				drag = ((planet.mass)*(r.length()^2));
-				F.x += (r.x * drag);
-				F.y += (r.y * drag);
+				//r.normalize();
+				//console.log(r.length());
+
+				//drag = 1 - 1/((planet.mass)*Math.pow(r.length()));
+				//drag = 1/(Math.pow(r.length())/planet.mass );
+				drag = 1/((r.length()*r.length()) / planet.mass );
+console.log(drag);
+				F.x += r.x * drag;
+				F.y += r.y * drag;
+
+				//F.x += Math.sqrt((6.67259*Math.pow(10,-11) * planet.mass)/r.length());
+				//F.y += Math.sqrt((6.67259*Math.pow(10,-11) * planet.mass)/r.length());
 			}
 
 			steps.push(step);
+			if( steps.length > 1000 ) {
+				isRunning = false;
+				break;
+			}
 
 			prevPos.x = currPos.x;
 			prevPos.y = currPos.y;
@@ -230,6 +238,8 @@
 			currPos.y += F.y * 0.01;
 
     	}
+
+    	console.log(steps.length);
     }
 
     // 
