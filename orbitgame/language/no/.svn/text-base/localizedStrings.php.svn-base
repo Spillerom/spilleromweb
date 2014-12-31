@@ -1,0 +1,98 @@
+<?php 
+
+// 
+$localizedStrings = array(
+	'PAGE_TITLE' => 'Reklamasjon av General varmepumpe',
+	'COMPLAINT_HEADLINE' => 'Reklamasjon',
+	'COMPLAINTS' => 'Reklamasjoner',
+	'COMPLAINT_HEADLINE_SHORT_DESCRIPTION' => 'Reklamasjonsskjema for General varmepumpe',
+	'RESELLER' => 'Forhandler',
+	'CUSTOMER' => 'Forbruker',
+	'DESCRIPTION_OF_COMPLAINT' => 'Beskrivelse av reklamasjonen',
+	'FILL_OUT_MODEL_AND_SERIAL_NUMBER' => 'Fyll ut type modell og serienummer på det som har feil',
+	'ONE_INDOOR_AND_ONE_OUTDOOR' => 'En innedel og en utedel',
+	'MODELNUMBER_INDOOR' => 'Modellnummer på innedel:',
+	'SERIALNUMBER_INDOOR' => 'Serienummer på innedel:',
+	'MODELNUMBER_OUTDOOR' => 'Modellnummer på utedel:',
+	'SERIALNUMBER_OUTDOOR' => 'Serienummer på utedel:',
+	'SERIALNUMBER_FORMAT_EXPLINATION' => '(En bokstav, så 6 tall.)',
+	'USE_UPPERCASE' => 'Bruk store bokstaver',
+	'MULTISPLIT' => 'Multisplitt: Flere innedeler og en utedel',
+	'SHOW_MULTISPLIT' => 'Klikk her for flere innedeler til multisplitt',	
+	//'HIDE_MULTISPLIT' => 'Lukk multisplitt',	
+	'GOTO_NEXT_STEP' => 'Gå videre',	
+	'GOTO_PREVIOUS_STEP' => 'Gå tilbake',
+	'WHEN_WAS_THE_DEVICE_INSTALLED' => 'Når ble pumpen installert?',	
+	'ENTER_FGASS_NUMBER' => 'Skriv inn F-gass nummer',
+	'FGASS_NUMBER' => 'F-gass nummer',
+	'WHERE_WAS_DEVICE_BOUGHT' => 'Hvor ble pumpen kjøpt?',
+	'ENTER_RESELLER' => 'Oppgi forhandler',
+	'DATE_ERROR_OCCURED' => 'Når oppstod feilen første gang? (oppgi dato)',
+	'ENTER_DATE' => 'Oppgi dato',
+	'ENTER_ERROR_CODE' => 'Registerer evt feilkode',
+	'ERROR_CODE' => 'Feilkode..',
+	'DESCRIBE_ERROR' => 'Beskriv feilen',
+	'DESCRIPTION' => 'Beskrivelse..',
+	'REGISTER_RECEIPT' => 'Registrer kvitering',
+	'RECEIPT_WARNING' => 'NB! Reklamasjonen behandles ikke før kvitering er mottatt.',
+	'CONTACT_INFO_OWNER' => 'Kontaktinfo eier:',
+	'FIRST_NAME' => 'Fornavn',
+	'LAST_NAME' => 'Etternavn',
+	'PHONE' => 'Telefon',
+	'EMAIL' => 'e-post',
+	'STREET_NAME' => 'Gatenavn',
+	'CITY' => 'Sted',
+	'PLACE' => 'Poststed',
+	'POST_NUMBER' => 'Postnummer',
+	'ADDRESS_OF_DEVICE' => 'Adresse monteringssted:',	
+	'COMPLETE_REGISTRATION' => 'Avslutt og send',
+
+	'COMPLAINT_REGISTERED_HEADLINE' => 'Din reklamasjon er registrert.',
+	'COMPLAINT_REGISTERED_DESCRIPTION' => 'Takk for at du benyttet deg av får tjeneste. Du vil bli kontaktet så snart vår saksbehandler har behandlet din reklamasjon.',
+
+	'WORK_IN_PROGRESS' => 'Arbeide pågår!',
+	'WORK_IN_PROGRESS_DESCRIPTION_PART_1' => 'Vi oppdaterer i disse dager i midten av mai garantitjenesten på nettsiden og utvider med mulighet for å registrere reklamasjonen elektronisk. Derfor kan det forekomme tregheter i systemet akkurat nå hvis du prøver å registrere noe her. Hvis du ikke får utført det det skal',
+	'WORK_IN_PROGRESS_DESCRIPTION_PART_2' => 'kan du kontakte oss her',
+
+	'RECEIPT' => 'Kvitering',
+	'DOWNLOAD' => 'Last ned',
+	'NO_RECEIPT' => 'Ingen kvitering..', 
+
+	'RECEIVED' => 'Mottatt',
+	'IN_PROGRESS' => 'Under behandling',
+	'TREATED' => 'Ferdig behandlet',
+	
+	'CLOSE' => 'Lukk',
+	'CLOSE_AND_SAVE_CASE' => 'Lukk sak',
+	'CLOSE_SAVE_AND_SEND_CASE' => 'Avslutt sak',
+		
+	// FOR VIEW 4:
+	'INVALID_COMPLAINT_ID' => 'Ugyldig saksnummer',
+		
+	'EXECUTIVE_OFFICER' => 'Saksbehandler',
+	'APPROVED' => 'Godkjent',
+	'NOT_APPROVED' => 'Ikke godkjent',
+	'COMMENTS_REGARDING_COMPLAINT_HEADLINE' => 'Kommentarer/historien bak',
+	'SAVE' => 'Lagre',
+	'SEND' => 'Send',
+	'UPLOADED_IMAGE_FORMAT_UNKNOWN' => 'Filformatet på filen du prøver å laste opp er ukjent..',
+	'UPLOADED_IMAGE_TOO_LARGE' => 'Filen du prøver å laste opp er for stor (MB)..',
+	'THANKS_FOR_CONTACTIG_US' => 'Takk for at du kontakter oss. Vi kommer tilbake så fort vi kan.',
+
+	'LOGIN_EXSISTING_CUSTOMERS' => 'Logg inn for eksisterende kunder',
+	'LOGIN_EXPLINATION' => 'Hvis du logget deg inn tidligere og motatt brukernavn og passord kan du logge deg inn her.',
+
+	'FORGOT_PASSWORD' => 'Glemt passord?',
+	'ENTER_EMAIL' => 'Skriv inn e-post adresse:',
+	'PASSWORD_REQUEST_EXPLINATION' => '(Skriv inn din e-postadresse og vi vil sende deg et nytt passord.)',
+	'PASSWORD_SENT_CONFIMATION' => 'Nytt passord har blitt sendt på e-post.',
+
+	'APPROVE_MAIL_SUBJECT' => 'Reklamasjon, General Varmepumper',	
+	'APPROVE_MAIL_APPROVED' => 'Din sak er nå behandlet og blitt godkjentfor reklamasjon.',
+	'APPROVE_MAIL_REJECTED' => 'Din sak er nå behandlet og ikke funnet gyldig for reklamasjon.',
+		
+	null
+);
+
+
+?>
