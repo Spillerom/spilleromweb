@@ -30,16 +30,16 @@ var Vector = function(x, y) {
 	};
 
 	this.add = function(b) {
-		var r = new Point();
-		r.x = b.x + r.x;
-		r.y = b.y + r.y;
+		var r = new Vector();
+		r.x = this.x + b.x;
+		r.y = this.y + b.y;
 		return r;
 	};
 
 	this.sub = function(b) {
-		var r = new Point();
-		r.x = b.x - r.x;
-		r.y = b.y - r.y;
+		var r = new Vector();
+		r.x = this.x - b.x;
+		r.y = this.y - b.y;
 		return r;
 	};
 };
@@ -80,7 +80,7 @@ var ONE_FRAME_TIME = 1000 / 30;
 var editablePlanet = -1;
 
 // 
-$('#border-slider-container').slider({
+$('#mass-slider-container, #bounce-slider-container').slider({
 	formatter: function(value) {
 		return 'Current value: ' + value;
 	}
@@ -95,6 +95,10 @@ var Mouse = function() {
 	this.pos = new Vector(0, 0);
 	this.prevPos = new Vector(0, 0);
 	this.deltaPos = new Vector(0, 0);
+	this.clickPos = new Vector(0, 0);
+
+	this.clickPosDistance = 0;
+	this.prevClickPosDistance = 0;
 
 	// 
 	this.update = function() {
@@ -117,14 +121,24 @@ canvas.addEventListener("mousemove", function(event) {
 	switch( editorState ) {
 		case EditorState.MOVE_MODE:
 			if ( editablePlanet != -1 ) {
-				planets[editablePlanet].x = mouse.pos.x;
-				planets[editablePlanet].y = mouse.pos.y;
+				planets[editablePlanet].position.x = mouse.pos.x;
+				planets[editablePlanet].position.y = mouse.pos.y;
 			};
 		break;
 
 		case EditorState.SCALE_MODE:
 			if ( editablePlanet != -1 ) {
-				planets[editablePlanet].radius += mouse.deltaPos.length();
+				mouse.prevClickPosDistance = mouse.clickPosDistance;
+				//var a = planets[editablePlanet].position.sub(mouse.pos);
+				//mouse.clickPosDistance = a.length();
+				mouse.clickPosDistance = planets[editablePlanet].position.sub(mouse.pos).length();
+
+				if( mouse.clickPosDistance > mouse.prevClickPosDistance ) {
+					planets[editablePlanet].radius += mouse.deltaPos.length();
+				} else {
+					planets[editablePlanet].radius -= mouse.deltaPos.length();
+					planets[editablePlanet].radius = Math.max(planets[editablePlanet].radius, 5);
+				}
 			};
 		break;
 	}
@@ -132,6 +146,9 @@ canvas.addEventListener("mousemove", function(event) {
 
 canvas.addEventListener("mousedown", function(event) {
 	editablePlanet = mouseOverPlanet();
+
+	mouse.clickPos.x = mouse.pos.x;
+	mouse.clickPos.y = mouse.pos.y;
 });
 
 canvas.addEventListener("mouseup", function(event) {
@@ -151,8 +168,8 @@ var mouseOverPlanet = function() {
 	var r = new Vector(0, 0);
 	for( i=0; i<planets.length-1; i++ ) {
 		var planet = planets[i];
-		r.x = planet.x - mouse.pos.x;
-		r.y = planet.y - mouse.pos.y;
+		r.x = planet.position.x - mouse.pos.x;
+		r.y = planet.position.y - mouse.pos.y;
 
 		if( r.length() <= planet.radius ) {
 			return i;
@@ -197,6 +214,17 @@ var KeyboardKeys = function() {
 }();
 
 // 
+var showMenu = function() {
+	$('#menu-panel').removeClass('menu-hide');
+	$('#menu-panel').addClass('menu-show');
+}
+
+// 
+var hideMenu = function() {
+	$('#menu-panel').removeClass('menu-show');
+	$('#menu-panel').addClass('menu-hide');
+}
+// 
 window.addEventListener("keypress", function(event) {
 	var code = event.keyCode;
 	console.log(code);
@@ -227,6 +255,7 @@ window.addEventListener("keypress", function(event) {
 		case KeyboardKeys.m:
 		case KeyboardKeys.M:
 			editorState = EditorState.MOVE_MODE;
+			showMenu();
 		break;
 
 		// OPEN KEY ('o/O')
@@ -238,12 +267,14 @@ window.addEventListener("keypress", function(event) {
 		case KeyboardKeys.s:
 		case KeyboardKeys.S:
 			editorState = EditorState.SCALE_MODE;
+			showMenu();
 		break;
 
 		// VIEW KEY ('v/V')
 		case KeyboardKeys.v:
 		case KeyboardKeys.V:
 			editorState = EditorState.VIEW_MODE;
+			hideMenu();
 		break;
 	}
 });
@@ -256,6 +287,8 @@ window.addEventListener("keydown", function(event) {
 		var code = event.keyCode;
 		switch (code) {
 			case KeyboardKeys.ESCAPE:
+				$('#menu-panel').removeClass('menu-align-left');
+				$('#menu-panel').addClass('menu-hide');
 			break;
 
 			case KeyboardKeys.LEFT:
@@ -280,8 +313,7 @@ window.addEventListener("keyup", function(event) {
 
 // 
 var Planet = function(x, y, radius, mass, color, border, borderColor) {
-	this.x = x;
-	this.y = y;
+	this.position = new Vector(x, y);
 	this.radius = radius;
 	this.mass = mass;
 	this.color = color;
@@ -323,8 +355,8 @@ var intersectionLineCircle = function(p1, p2, planet) {
 	// 
 	var r = planet.radius;
 
-	var x1 = p1.x-planet.x, y1 = p1.y-planet.y;
-	var x2 = p2.x-planet.x, y2 = p2.y-planet.y;
+	var x1 = p1.x-planet.position.x, y1 = p1.y-planet.position.y;
+	var x2 = p2.x-planet.position.x, y2 = p2.y-planet.position.y;
 
 	var dx = x2 - x1;
 	var dy = y2 - y1;
@@ -341,11 +373,11 @@ var intersectionLineCircle = function(p1, p2, planet) {
 		var q2 = new Vector(0, 0);
 
 		// 
-		q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
-		q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.x;
+		q1.x = ((D*dy + sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.position.x;
+		q2.x = ((D*dy - sgn(dy)*dx*Math.sqrt(incidence)) / insideDr) + planet.position.x;
 
-		q1.y = (((-D)*dx + Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
-		q2.y = (((-D)*dx - Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.y;
+		q1.y = (((-D)*dx + Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.position.y;
+		q2.y = (((-D)*dx - Math.abs(dy)*Math.sqrt(incidence)) / insideDr) + planet.position.y;
 
 		var tmp1 = new Vector(q1.x - p1.x, q1.y - p1.y);
 		var tmp2 = new Vector(q2.x - p1.x, q2.y - p1.y);
@@ -377,8 +409,8 @@ var calculatePath = function() {
 		for( i=0; i<planets.length-1; i++ ) {
 			var planet = planets[i];
 
-			r.x = planet.x - currPos.x;
-			r.y = planet.y - currPos.y;
+			r.x = planet.position.x - currPos.x;
+			r.y = planet.position.y - currPos.y;
 
 			if( r.length() <= planet.radius*1.5 ) {
 				if( path.steps.length > 1) {
@@ -463,7 +495,7 @@ var renderLine = function(p1, p2, color, lineWidth) {
 var renderPlanets = function() {
 	for( i=0; i<planets.length-1; i++ ) {
 		var planet = planets[i];
-		renderDot(planet.x, planet.y, planet.radius, planet.color, planet.border, planet.borderColor);
+		renderDot(planet.position.x, planet.position.y, planet.radius, planet.color, planet.border, planet.borderColor);
 	}
 }
 
