@@ -3,7 +3,15 @@ var PathStep = function(position, radius, color) {
 	this.position = position;
 	this.radius = radius;
 	this.color = color;
-}
+};
+
+// 
+var Path = function() {
+	this.steps = [];
+	this.steps.length = 65536;
+	this.numSteps = 0;
+};
+var path = new Path();
 
 // 
 var Vector = function(x, y) {
@@ -36,7 +44,18 @@ var Vector = function(x, y) {
 	};
 };
 
-var isMouseVisible = true;
+// 
+var EditorState = function() {
+	return {
+		'OPEN_LEVEL': 0,
+		'SAVE_LEVEL': 1,
+		'VIEW_MODE': 2,
+		'SCALE_MODE': 3,
+		'MOVE_MODE': 4
+	}
+}();
+var editorState = EditorState.VIEW_MODE;
+
 
 // Game states
 var GameState = function() {
@@ -44,42 +63,220 @@ var GameState = function() {
 		'MOVE_MOUSE': 0,
 		'CALCULATE_PATH': 1,
 		'RENDER_PATH': 2,
-		'DEBUG_MODE': 3,
-		'LAUNCH': 4
+		'LAUNCH': 7
 	}
 }();
 var gameState = GameState.MOVE_MOUSE;
 var prevGameState = GameState.MOVE_MOUSE;
 
-var steps = [];
-steps.length = 65536;
-var numSteps = 0;
 
 // 
 var canvas = document.getElementById('myCanvas');
-
-//canvas.width = 1024;
-//canvas.height = 1024;
+var context = canvas.getContext('2d');
 
 var frame=0;
 var ONE_FRAME_TIME = 1000 / 30;
 
-var mousePos = new Vector(0, 0);
+var editablePlanet = -1;
 
-var context = canvas.getContext('2d');
+// 
+$('#border-slider-container').slider({
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+
+//
+// MOUSE ROUTINES:
+//
+
+var Mouse = function() {
+	this.isVisible = true;
+	this.pos = new Vector(0, 0);
+	this.prevPos = new Vector(0, 0);
+	this.deltaPos = new Vector(0, 0);
+
+	// 
+	this.update = function() {
+		this.deltaPos.x = (this.prevPos.x - this.pos.x);
+		this.deltaPos.y = (this.prevPos.y - this.pos.y);
+
+		this.prevPos.x = this.pos.x;
+		this.prevPos.y = this.pos.y;
+	};
+}
+var mouse = new Mouse();
 
 canvas.addEventListener("mousemove", function(event) {
 	var rect = canvas.getBoundingClientRect();
-	mousePos.x = event.clientX - rect.left;
-	mousePos.y = event.clientY - rect.top;
+
+	mouse.pos.x = event.clientX - rect.left;
+	mouse.pos.y = event.clientY - rect.top;
+
+	// 
+	switch( editorState ) {
+		case EditorState.MOVE_MODE:
+			if ( editablePlanet != -1 ) {
+				planets[editablePlanet].x = mouse.pos.x;
+				planets[editablePlanet].y = mouse.pos.y;
+			};
+		break;
+
+		case EditorState.SCALE_MODE:
+			if ( editablePlanet != -1 ) {
+				planets[editablePlanet].radius += mouse.deltaPos.length();
+			};
+		break;
+	}
+});
+
+canvas.addEventListener("mousedown", function(event) {
+	editablePlanet = mouseOverPlanet();
+});
+
+canvas.addEventListener("mouseup", function(event) {
+	// 
+	switch( editorState ) {
+		case EditorState.ADD_MODE:
+			if ( editablePlanet != -1 ) {
+				//planets.push( new Planet(mouse.pos.x, mouse.pos.y, 30, 9600, 'gray', 5, 'gray') );
+			};
+		break;
+	}
+	editablePlanet = -1;
 });
 
 // 
-var clearScreen = function() {
-	context.rect(0, 0, canvas.width, canvas.height);
-	context.fillStyle="white";
-	context.fill();
-};
+var mouseOverPlanet = function() {
+	var r = new Vector(0, 0);
+	for( i=0; i<planets.length-1; i++ ) {
+		var planet = planets[i];
+		r.x = planet.x - mouse.pos.x;
+		r.y = planet.y - mouse.pos.y;
+
+		if( r.length() <= planet.radius ) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+//
+// KEYBOARD ROUTINES:
+//
+
+// 
+var KeyboardKeys = function() {
+	return {
+		'ESCAPE': 27,
+		// ...
+		'LEFT': 37,
+		'UP': 38,
+		'RIGHT': 39,
+		'DOWN': 40,
+		// ...
+		'A': 65,
+		'D': 68,
+		'E': 69,
+		'H': 72,
+		'M': 77,
+		'O': 79,
+		'S': 83,
+		'V': 86,
+		// ...
+		'a': 97,
+		'd': 100,
+		'e': 101,
+		'h': 104,
+		'm': 109,
+		'o': 111,
+		's': 115,
+		'v': 118
+	}
+}();
+
+// 
+window.addEventListener("keypress", function(event) {
+	var code = event.keyCode;
+	console.log(code);
+	switch (code) {
+		// ADD KEY ('a/A')
+		case KeyboardKeys.a:
+		case KeyboardKeys.A:
+			// TODO: DELETE SELECTED OBJECT
+		break;
+
+		// DELETE KEY ('d/D')
+		case KeyboardKeys.d:
+		case KeyboardKeys.D:
+			// TODO: DELETE SELECTED OBJECT
+		break;
+
+		// EDIT KEY ('e/E')
+		case KeyboardKeys.e:
+		case KeyboardKeys.E:
+		break;
+
+		// HELP KEY ('h/H')
+		case KeyboardKeys.h:
+		case KeyboardKeys.H:
+		break;
+
+		// MOVE KEY ('m/M')
+		case KeyboardKeys.m:
+		case KeyboardKeys.M:
+			editorState = EditorState.MOVE_MODE;
+		break;
+
+		// OPEN KEY ('o/O')
+		case KeyboardKeys.o:
+		case KeyboardKeys.O:
+		break;
+
+		// SCALE KEY ('s/S')
+		case KeyboardKeys.s:
+		case KeyboardKeys.S:
+			editorState = EditorState.SCALE_MODE;
+		break;
+
+		// VIEW KEY ('v/V')
+		case KeyboardKeys.v:
+		case KeyboardKeys.V:
+			editorState = EditorState.VIEW_MODE;
+		break;
+	}
+});
+
+// 
+var isKeyDown = false;
+window.addEventListener("keydown", function(event) {
+	if( !isKeyDown ) {
+		isKeyDown = true;
+		var code = event.keyCode;
+		switch (code) {
+			case KeyboardKeys.ESCAPE:
+			break;
+
+			case KeyboardKeys.LEFT:
+			break;
+
+			case KeyboardKeys.UP:
+			break;
+
+			case KeyboardKeys.RIGHT:
+			break;
+
+			case KeyboardKeys.DOWN:
+			break;
+		}
+	}
+});
+
+// 
+window.addEventListener("keyup", function(event) {
+	isKeyDown = false;
+});
 
 // 
 var Planet = function(x, y, radius, mass, color, border, borderColor) {
@@ -112,8 +309,8 @@ var planets = [
 // 
 var F = new Vector(170, 0);
 var startForce = function() {
-	F.x = (mousePos.x - startPos.x) * 5.5;
-	F.y = (mousePos.y - startPos.y) * 5.5;
+	F.x = (mouse.pos.x - startPos.x) * 5.5;
+	F.y = (mouse.pos.y - startPos.y) * 5.5;
 }
 
 // 
@@ -169,7 +366,7 @@ var calculatePath = function() {
 	var r = new Vector(0, 0);
 	var drag = 0;
 
-	numSteps = 0;
+	path.numSteps = 0;
 
 	var currPos = new Vector(startPos.x, startPos.y);
 	var prevPos = new Vector(startPos.x, startPos.y);
@@ -184,7 +381,7 @@ var calculatePath = function() {
 			r.y = planet.y - currPos.y;
 
 			if( r.length() <= planet.radius*1.5 ) {
-				if( steps.length > 1) {
+				if( path.steps.length > 1) {
 					var q = intersectionLineCircle(prevPos, currPos, planet);
 
 					if( q!= 0 ) {
@@ -206,7 +403,7 @@ var calculatePath = function() {
 			F.y += r.y * drag;
 		}
 
-		steps[numSteps] = step;
+		path.steps[path.numSteps] = step;
 
 		prevPos.x = currPos.x;
 		prevPos.y = currPos.y;
@@ -215,14 +412,12 @@ var calculatePath = function() {
 		currPos.y += F.y * 0.01;
 
 		// 
-		numSteps++;
-		if( numSteps >= steps.length-1 ) {
+		path.numSteps++;
+		if( path.numSteps >= path.steps.length-1 ) {
 			isRunning = false;
 			break;
 		}
 	}
-
-	console.log(steps.length);
 }
 
 
@@ -230,7 +425,14 @@ var calculatePath = function() {
 // RENDERING ROUTINES:
 //
 
-	// 
+// 
+var clearScreen = function() {
+	context.rect(0, 0, canvas.width, canvas.height);
+	context.fillStyle="white";
+	context.fill();
+};
+
+// 
 var renderDot = function(x, y, radius, color, border, borderColor) {
 	context.beginPath();
 
@@ -267,10 +469,10 @@ var renderPlanets = function() {
 
 // 
 var renderPath = function() {
-	if( numSteps > 1 ) {
-		for( i=0; i<numSteps-1; i++ ) {
-			step = steps[i];
-			nextStep = steps[i+1];
+	if( path.numSteps > 1 ) {
+		for( i=0; i<path.numSteps-1; i++ ) {
+			step = path.steps[i];
+			nextStep = path.steps[i+1];
 
 			renderLine(step.position, nextStep.position, '#000000');
 			renderDot(step.position.x, step.position.y, step.radius, step.color);
@@ -281,64 +483,56 @@ var renderPath = function() {
 	}
 }
 
-var deltaMousePos = new Vector(0, 0);
-var prevMousePos = new Vector(0, 0);
 
-isGame = true;
+//
+// RENDERING ROUTINES:
+//
+
 var mainloop = function() {
 	// 
 	canvas.width  = window.innerWidth;
 	canvas.height = window.innerHeight;
 
 	// 
-	if( isGame ) {
-		clearScreen();
+	clearScreen();
 
-		renderPlanets();
+	// 
+	renderPlanets();
 
-		// 
-		deltaMousePos.x = Math.abs(prevMousePos.x - mousePos.x);
-		deltaMousePos.y = Math.abs(prevMousePos.y - mousePos.y);
-		if( deltaMousePos.length() > 0 ) {
-			gameState = GameState.MOVE_MOUSE;
-		} else {
-			if( prevGameState == GameState.MOVE_MOUSE ) {
-				gameState = GameState.CALCULATE_PATH;
-			}
-		}
-		prevGameState = gameState;
-		prevMousePos.x = mousePos.x;
-		prevMousePos.y = mousePos.y;
-
-		// 
-		switch( gameState ) {
-			case GameState.MOVE_MOUSE:
-				startForce();
-			break;
-
-			case GameState.CALCULATE_PATH:
-				calculatePath();
-				gameState = GameState.RENDER_PATH;
-			break;
-
-			case GameState.RENDER_PATH:
-				renderPath();
-			break;
-
-			case GameState.DEBUG_MODE:
-				renderPath();
-			break;
-
-			case GameState.LAUNCH:
-			break;
-		}
-
-		// 
-		if( isMouseVisible ) {
-			renderLine(startPos, mousePos, '#ff0000');
+	// 
+	mouse.update();
+	if( mouse.deltaPos.length() > 0 ) {
+		gameState = GameState.MOVE_MOUSE;
+	} else {
+		if( prevGameState == GameState.MOVE_MOUSE ) {
+			gameState = GameState.CALCULATE_PATH;
 		}
 	}
+	prevGameState = gameState;
 
+	// 
+	switch( gameState ) {
+		case GameState.MOVE_MOUSE:
+			startForce();
+		break;
+
+		case GameState.CALCULATE_PATH:
+			calculatePath();
+			gameState = GameState.RENDER_PATH;
+		break;
+
+		case GameState.RENDER_PATH:
+			renderPath();
+		break;
+
+		case GameState.LAUNCH:
+		break;
+	}
+
+	// 
+	if( mouse.isVisible ) {
+		renderLine(startPos, mouse.pos, '#ff0000');
+	}
 
 	// 
 	frame = frame + 1;

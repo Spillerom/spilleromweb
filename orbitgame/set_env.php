@@ -102,7 +102,7 @@ $waterPumpModelManager = new WaterPumpModelManager($appDB);
 ##
 
 // TODO: READ THIS FROM THE USERS SETTINGS
-$language = "no";
+$language = "en";
 
 // 
 require_once $path.'language/'.$language.'/localizedStrings.php';

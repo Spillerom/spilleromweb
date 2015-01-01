@@ -4,10 +4,10 @@
 $localizedStrings = array(
 	'PAGE_TITLE' => 'Level editor for orbitbame',
 
-	'EDIT_MODE' => 'Redigeringsmodus',
-	'DEBUG_MODE' => 'Debug-modus',
+	'EDIT_MODE' => 'Edit mode',
+	'DEBUG_MODE' => 'Debug mode',
 
-	'SAVE' => 'Lagre',
+	'SAVE' => 'Save',
 
 	null
 );
