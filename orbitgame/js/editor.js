@@ -1,3 +1,8 @@
+
+var PLANET_DEFAULT_RADIUS = 30;
+var PLANET_DEFAULT_MASS = 1000;
+
+
 // 
 var PathStep = function(position, radius, color) {
 	this.position = position;
@@ -144,25 +149,23 @@ canvas.addEventListener("mousemove", function(event) {
 });
 
 canvas.addEventListener("mousedown", function(event) {
+	// 
+	mouse.clickPos.x = mouse.pos.x;
+	mouse.clickPos.y = mouse.pos.y;
+
+	// 
 	editablePlanet = mouseOverPlanet();
 
 	if( editablePlanet != -1 ) {
 		setSelectedPlanet(editablePlanet);
+	} else {
+		if( editorState == EditorState.ADD_MODE ) {
+			addNewObject();
+		}
 	}
-
-	mouse.clickPos.x = mouse.pos.x;
-	mouse.clickPos.y = mouse.pos.y;
 });
 
 canvas.addEventListener("mouseup", function(event) {
-	// 
-	switch( editorState ) {
-		case EditorState.ADD_MODE:
-			if ( editablePlanet != -1 ) {
-				//planets.push( new Planet(mouse.pos.x, mouse.pos.y, 30, 9600, 'gray', 5, 'gray') );
-			};
-		break;
-	}
 	editablePlanet = -1;
 });
 
@@ -232,13 +235,27 @@ var KeyboardKeys = function() {
 var showMenu = function() {
 	$('#menu-panel').removeClass('menu-hide');
 	$('#menu-panel').addClass('menu-show');
-}
+};
 
 // 
 var hideMenu = function() {
 	$('#menu-panel').removeClass('menu-show');
 	$('#menu-panel').addClass('menu-hide');
-}
+};
+
+// 
+var addNewObject = function() {
+	planets.push(new Planet(mouse.clickPos.x, mouse.clickPos.y, PLANET_DEFAULT_RADIUS, PLANET_DEFAULT_MASS, 'GRAY'));
+};
+
+// 
+var deleteSelectedObject = function() {
+	if( selectedPlanet > 0 ) {
+		planets.splice(selectedPlanet, 1);
+	}
+
+};
+
 // 
 window.addEventListener("keypress", function(event) {
 	var code = event.keyCode;
@@ -247,13 +264,13 @@ window.addEventListener("keypress", function(event) {
 		// ADD KEY ('a/A')
 		case KeyboardKeys.a:
 		case KeyboardKeys.A:
-			// TODO: DELETE SELECTED OBJECT
+			editorState = EditorState.ADD_MODE;
 		break;
 
 		// DELETE KEY ('d/D')
 		case KeyboardKeys.d:
 		case KeyboardKeys.D:
-			// TODO: DELETE SELECTED OBJECT
+			deleteSelectedObject();
 		break;
 
 		// EDIT KEY ('e/E')
@@ -339,15 +356,16 @@ var Planet = function(x, y, radius, mass, color, border, borderColor) {
 }
 
 var startPos = new Vector(100, 300);
-var player = new Planet(startPos.x, startPos.y, 3, 0.005, '#000000');
 
 var planets = [
+			// FIRST ELEMENT = START POS:
+			new Planet(startPos.x, startPos.y, 10, 1, '#0000FF'),
+			// ...
 			new Planet(412, 212, 60, 64000, 'red'),
 			new Planet(812, 112, 50, 25600, 'green'),
 			new Planet(812, 512, 30, 9600, 'gray'),
 			new Planet(112, 512, 30, 5600, 'gray'),
-			new Planet(800, 300, 30, 9600, 'blue'),
-			player
+			new Planet(800, 300, 30, 9600, 'blue')
 			];
 
 
@@ -417,13 +435,14 @@ var calculatePath = function() {
 
 	path.numSteps = 0;
 
+	startPos = planets[0].position;
 	var currPos = new Vector(startPos.x, startPos.y);
 	var prevPos = new Vector(startPos.x, startPos.y);
 
 	while( isRunning ) {
 		var step = new PathStep(new Vector(currPos.x, currPos.y), 3, '#00ff00');
 
-		for( i=0; i<planets.length-1; i++ ) {
+		for( i=1; i<planets.length-1; i++ ) {
 			var planet = planets[i];
 
 			r.x = planet.position.x - currPos.x;
@@ -529,7 +548,7 @@ var renderPath = function() {
 			step = path.steps[i];
 			nextStep = path.steps[i+1];
 
-			renderLine(step.position, nextStep.position, '#000000');
+			renderLine(step.position, nextStep.position, '#909090');
 			renderDot(step.position.x, step.position.y, step.radius, step.color);
 		}
 		context.globalAlpha = 0.3;
@@ -545,41 +564,14 @@ var renderPath = function() {
 
 var mainloop = function() {
 	// 
+	mouse.update();
+
+	// 
 	canvas.width  = window.innerWidth;
 	canvas.height = window.innerHeight;
 
 	// 
 	clearScreen();
-
-	/*
-	context.beginPath();
-	context.arc(412, 512, 30, 0, 2 * Math.PI, false);
-	context.closePath();
-
-	context.fillStyle = 'gray';
-	context.fill();
-
-	context.lineWidth = 5;
-	context.strokeStyle = 'blue';
-	context.stroke();
-
-	context.beginPath();
-	context.arc(512, 512, 30, 0, 2 * Math.PI, false);
-	context.closePath();
-
-	context.fillStyle = 'gray';
-	context.fill();
-
-	context.lineWidth = 1;
-	context.strokeStyle = 'green';
-	context.stroke();
-	*/
-
-	// 
-	renderPlanets();
-
-	// 
-	mouse.update();
 
 	// 
 	if( editorState == EditorState.VIEW_MODE ) {
@@ -617,6 +609,9 @@ var mainloop = function() {
 			renderLine(startPos, mouse.pos, '#808080');
 		}
 	}
+
+	// 
+	renderPlanets();
 
 	// 
 	frame = frame + 1;

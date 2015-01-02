@@ -56,7 +56,7 @@
  	<canvas id="myCanvas"></canvas>
 
 	<div id="menu-panel" class="menu-show container theme-showcase">
-		<div id="editor-mode" class="label label-danger"><?php LocalizedString('EDIT_MODE'); ?></div>
+		<div id="editor-mode" class="label label-danger"></div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
