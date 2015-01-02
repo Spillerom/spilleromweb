@@ -13,7 +13,7 @@
     <!-- Custom styles -->	
 	<style>
 		html, body {
-			position: absolute;
+			position: relative;
 			width: 100%;
 			height: 100%;
 			margin: 0;
@@ -22,46 +22,25 @@
 		}
 
 		#myCanvas {
-			position: absolute;
-			z-index: 0;
-		}
-
-		.background {
-			position: absolute;
-			top: 0;
-			left: 0;
+			float: left;
 			width: 100%;
-			height: 100%;
-			background-color: #000;
-			opacity: 0.5;
 		}
 
 		#menu-panel {
-			position: absolute;
-			z-index: 1;
-			width: 300px;
-			height: 100%;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			height: 25%;
 			-webkit-transition:width 1s;
 			transition:width 1s;
 		}
-			.menu-section {
-				position: relative;
-				float: left;
-				width: 100%;
-				padding: 1em 0;
-				color: #fff;
-				background-color: #808080;
-				text-align: center;
-			}
-			#planet-settings {
-				position: relative;
-			}
+
+		.menu-show {
+			bottom: 0;
+		}
 
 		.menu-hide {
-			left: 300px;
-		}
-		.menu-show {
-			left: 0px;
+			bottom: -25%;
 		}
 
 		.slider-selection {
@@ -74,31 +53,34 @@
 	</style>
 </head>
  <body role="document">
- 	<canvas id="myCanvas" width="100%" height="100%"></canvas>
-	<!--
-	this.mass = mass;
-	this.color = color;
+ 	<canvas id="myCanvas"></canvas>
 
-	this.border = border;
-	this.borderColor = borderColor;
-	-->
 	<div id="menu-panel" class="menu-show container theme-showcase">
-		<div class="background"></div>
-		<div id="editor-mode" class="menu-section"><?php LocalizedString('EDIT_MODE'); ?></div>
+		<div id="editor-mode" class="label label-danger"><?php LocalizedString('EDIT_MODE'); ?></div>
 
-		<form id="planet-settings" role="form">
-			<div class="form-group">
-				<label for="mass">Mass:</label>
-				<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Properties</h3>
+ 			</div>
+			<div class="panel-body">
+				<form role="form">
+					<div class="form-group">
+						<label for="mass">Mass:</label>
+						<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
+					</div>
+
+					<div class="form-group">
+						<label for="mass">Bounce:</label>
+						<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0"/>
+					</div>
+
+					<div id="save-button" class="btn btn-primary"><?php LocalizedString('SAVE'); ?></div>
+				</form>				
 			</div>
+		</div>
 
-			<div class="form-group">
-				<label for="mass">Bounce:</label>
-				<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="5" data-slider-step="1" data-slider-value="0">
-			</div>
 
-			<div id="save-button" class="btn btn-default"><?php LocalizedString('SAVE'); ?></div>
-		</form>
+
 	</div>
 
 	<!-- JQUERY INCLUDES -->

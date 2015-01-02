@@ -21,7 +21,11 @@
 
         //////////////////////////////////////////////////////////////////////////////
         function Error() {
-            return mysqli_error($this->connect_id);
+            if( is_null($this->connect_id) ) {
+                return $this->connect_id;
+            } else {
+                return mysqli_error($this->connect_id);
+            }
         }
 
         //////////////////////////////////////////////////////////////////////////////

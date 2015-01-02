@@ -1,15 +1,7 @@
 <?php
 
-
 // 
-class WaterPumpModelType {
-	const INDOOR = 1;	
-	const OUTDOOR = 2;	
-}
-
-
-// 
-class WaterPumpModel {
+class Level {
 	// Constructor
 	function __construct() {
 	}
@@ -23,40 +15,40 @@ class WaterPumpModel {
 		return $this->id;
 	}
 	
-	// Set / get "complaint id"
-	private $complaintId;
-	function SetComplaintId($value) {
-		$this->complaintId = $value;
+	// Set / get "name"
+	private $name;
+	function SetName($value) {
+		$this->name = $value;
 	}
-	function GetComplaintId() {
-		return $this->complaintId;
+	function GetName() {
+		return $this->name;
 	}
 	
-	// Set / get "type"
-	private $type;
-	function SetType($value) {
-		$this->type = $value;
+	// Set / get "universe"
+	private $universe;
+	function SetUniverse($value) {
+		$this->universe = $value;
 	}
-	function GetType() {
-		return $this->type;
+	function GetUniverse() {
+		return $this->universe;
 	}
 		
-	// Set / get "model number"
-	private $modelNumber;
-	function SetModelNumber($value) {
-		$this->modelNumber = $value;
+	// Set / get "planets"
+	private $planets;
+	function SetPlanets($value) {
+		$this->planets = $value;
 	}
-	function GetModelNumber() {
-		return $this->modelNumber;
+	function GetPlanets() {
+		return $this->planets;
 	}
 	
 	// Set / get "serial number"
-	private $serialNumber;
-	function SetSerialNumber($value) {
-		$this->serialNumber = $value;
+	private $startPos;
+	function SetStartPos($value) {
+		$this->startPos = $value;
 	}
-	function GetSerialNumber() {
-		return $this->serialNumber;
+	function GetStartPos() {
+		return $this->startPos;
 	}
 }
 ?>
