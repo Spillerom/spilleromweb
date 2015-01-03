@@ -91,8 +91,22 @@ var editablePlanet = -1;
 var selectedPlanet = -1;
 
 // 
-$('#mass-slider-container, #bounce-slider-container').slider({
-	formatter: function(value) {
+$('#mass-slider-container').slider({
+	formater: function(value) {
+		if( selectedPlanet != -1 ) {
+			planets[selectedPlanet].mass = value;
+		}
+		return 'Current value: ' + value;
+	}
+});
+
+// 
+$('#bounce-slider-container').slider({
+	formater: function(value) {
+		if( selectedPlanet != -1 ) {
+			planets[selectedPlanet].bounce = value;
+		}
+
 		return 'Current value: ' + value;
 	}
 });
@@ -199,7 +213,13 @@ var setSelectedPlanet = function(index) {
 	}
 	planets[selectedPlanet].border = 5;
 
-	// TODO: UPDATE PROPERTIES TABLE:
+	//
+	var massControl = $("#mass-slider-container").slider();
+	massControl.slider('setValue', planets[selectedPlanet].mass);
+
+	//
+	var bounceControl = $("#bounce-slider-container").slider();
+	bounceControl.slider('setValue', planets[selectedPlanet].bounce);
 };
 
 //
@@ -394,10 +414,12 @@ var Planet = function(x, y, radius, mass, color, border, borderColor) {
 	this.radius = radius;
 	this.mass = mass;
 	this.color = color;
+	this.bounce = 0
 	if( border == undefined ) border = 0;
 	this.border = border;
 	if( borderColor == undefined ) borderColor = '#000000';
 	this.borderColor = borderColor;
+
 }
 
 //var startPos = new Vector(100, 300);
@@ -690,6 +712,7 @@ var mainloop = function() {
 	frame = frame + 1;
 };
 
+// 
 $.post( "ajax/get_language_file.php", function( data ) {
 	localizedStrings = data;
 	setInterval( mainloop, ONE_FRAME_TIME );
