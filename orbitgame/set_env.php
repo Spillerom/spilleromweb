@@ -85,7 +85,7 @@ switch( $environment ) {
 		//$sessionKey = md5("WATER_PUMP_COMPLAINT_PROD");
 	break;
 }
-
+/*
 // 
 $appDB = new MySqlDB();
 $appDB->Connect($appDBHost, $appDBUser, $appDBPass, $appDBName);
@@ -95,7 +95,7 @@ $appDB->Query('SET NAMES utf8');
 ## Initialize the "WaterPumpModel Manager" class
 ##
 $waterPumpModelManager = new WaterPumpModelManager($appDB);
-
+*/
 
 ##
 ## HANDLE LANGUAGE

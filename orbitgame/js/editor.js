@@ -111,6 +111,14 @@ $('#bounce-slider-container').slider({
 	}
 });
 
+// 
+$('#maxstartforce-slider-container').slider({
+	formater: function(value) {
+
+		return 'Current value: ' + value;
+	}
+});
+
 //
 // MOUSE ROUTINES:
 //

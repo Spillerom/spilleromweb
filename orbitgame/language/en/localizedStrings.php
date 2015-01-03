@@ -9,6 +9,8 @@ $localizedStrings = array(
 	'MASS' => 'Mass:',
 	'BOUNCE' => 'Bounce',
 
+	'MAX_START_FORCE' => 'Max start force',
+
 	'ADD_MODE' => 'Add mode',
 	'DELETE_MODE' => 'Delete mode',
 	'MOVE_MODE' => 'Move mode',

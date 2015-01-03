@@ -63,7 +63,7 @@
 </head>
  <body role="document">
  	<canvas id="myCanvas"></canvas>
-	
+
 	<div id="properties-panel" class="menu-show container theme-showcase">
 		<div id="editor-mode" class="label label-danger"></div>
 
@@ -72,19 +72,31 @@
 				<h3 class="panel-title"><?php LocalizedString('PROPERTIES'); ?></h3>
  			</div>
 			<div class="panel-body">
-				<form role="form">
-					<div class="form-group">
-						<label for="mass"><?php LocalizedString('MASS'); ?></label>
-						<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
-					</div>
+				<div class="row">
+					<div class="col-md-6">
+						<form role="form">
+							<div class="form-group">
+								<label for="mass"><?php LocalizedString('MASS'); ?></label>
+								<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
+							</div>
 
-					<div class="form-group">
-						<label for="mass"><?php LocalizedString('BOUNCE'); ?></label>
-						<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0"/>
-					</div>
+							<div class="form-group">
+								<label for="mass"><?php LocalizedString('BOUNCE'); ?></label>
+								<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0"/>
+							</div>
 
-					<div id="save-button" class="btn btn-primary"><?php LocalizedString('SAVE'); ?></div>
-				</form>				
+							<div id="save-button" class="btn btn-primary"><?php LocalizedString('SAVE'); ?></div>
+						</form>				
+					</div>
+					<div class="col-md-6">
+						<form role="form">
+							<div class="form-group">
+								<label for="maxstartforce"><?php LocalizedString('MAX_START_FORCE'); ?></label>
+								<input id="maxstartforce-slider-container" data-slider-id='maxstartforce-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
+							</div>
+						</form>				
+					</div>
+				</div> 
 			</div>
 		</div>
 
