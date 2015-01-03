@@ -1,22 +1,4 @@
 
-var PLANET_DEFAULT_RADIUS = 30;
-var PLANET_DEFAULT_MASS = 1000;
-
-
-// 
-var PathStep = function(position, radius, color) {
-	this.position = position;
-	this.radius = radius;
-	this.color = color;
-};
-
-// 
-var Path = function() {
-	this.steps = [];
-	this.steps.length = 65536;
-	this.numSteps = 0;
-};
-var path = new Path();
 
 // 
 var Vector = function(x, y) {
@@ -48,6 +30,29 @@ var Vector = function(x, y) {
 		return r;
 	};
 };
+
+// 
+var localizedStrings = null;
+
+// 
+var PLANET_DEFAULT_RADIUS = 30;
+var PLANET_DEFAULT_MASS = 1000;
+
+// 
+var PathStep = function(position, radius, color) {
+	this.position = position;
+	this.radius = radius;
+	this.color = color;
+};
+
+// 
+var Path = function() {
+	this.steps = [];
+	this.steps.length = 65536;
+	this.startPos = new Vector(window.innerWidth/2, window.innerHeight/2);
+	this.numSteps = 0;
+};
+var path = new Path();
 
 // 
 var EditorState = function() {
@@ -253,7 +258,48 @@ var deleteSelectedObject = function() {
 	if( selectedPlanet > 0 ) {
 		planets.splice(selectedPlanet, 1);
 	}
+};
 
+// 
+var setAddMode = function() {
+	$('#editor-mode').text(localizedStrings.ADD_MODE);
+	showMenu();
+	editorState = EditorState.ADD_MODE;
+};
+
+// 
+var setScaleMode = function() {
+	$('#editor-mode').text(localizedStrings.SCALE_MODE);
+	editorState = EditorState.SCALE_MODE;
+	showMenu();
+};
+
+// 
+var showHelpPanel = function() {
+};
+
+// 
+var setMoveMode = function() {
+	$('#editor-mode').text(localizedStrings.MOVE_MODE);
+	editorState = EditorState.MOVE_MODE;
+	showMenu();
+};
+
+// 
+var showOpenPanel = function() {
+};
+// 
+var setViewMode = function() {
+	$('#editor-mode').text(localizedStrings.VIEW_MODE);
+
+	// 
+	startForce();
+	calculatePath();
+	gameState = GameState.RENDER_PATH;
+
+	// 
+	hideMenu();	
+	editorState = EditorState.VIEW_MODE;
 };
 
 // 
@@ -264,7 +310,7 @@ window.addEventListener("keypress", function(event) {
 		// ADD KEY ('a/A')
 		case KeyboardKeys.a:
 		case KeyboardKeys.A:
-			editorState = EditorState.ADD_MODE;
+			setAddMode();
 		break;
 
 		// DELETE KEY ('d/D')
@@ -281,32 +327,31 @@ window.addEventListener("keypress", function(event) {
 		// HELP KEY ('h/H')
 		case KeyboardKeys.h:
 		case KeyboardKeys.H:
+			showHelpPanel();
 		break;
 
 		// MOVE KEY ('m/M')
 		case KeyboardKeys.m:
 		case KeyboardKeys.M:
-			editorState = EditorState.MOVE_MODE;
-			showMenu();
+			setMoveMode();
 		break;
 
 		// OPEN KEY ('o/O')
 		case KeyboardKeys.o:
 		case KeyboardKeys.O:
+			showOpenPanel();
 		break;
 
 		// SCALE KEY ('s/S')
 		case KeyboardKeys.s:
 		case KeyboardKeys.S:
-			editorState = EditorState.SCALE_MODE;
-			showMenu();
+			setScaleMode();
 		break;
 
 		// VIEW KEY ('v/V')
 		case KeyboardKeys.v:
 		case KeyboardKeys.V:
-			editorState = EditorState.VIEW_MODE;
-			hideMenu();
+			setViewMode();
 		break;
 	}
 });
@@ -355,11 +400,11 @@ var Planet = function(x, y, radius, mass, color, border, borderColor) {
 	this.borderColor = borderColor;
 }
 
-var startPos = new Vector(100, 300);
+//var startPos = new Vector(100, 300);
 
 var planets = [
 			// FIRST ELEMENT = START POS:
-			new Planet(startPos.x, startPos.y, 10, 1, '#0000FF'),
+			new Planet(path.startPos.x, path.startPos.y, 10, 1, '#0000FF'),
 			// ...
 			new Planet(412, 212, 60, 64000, 'red'),
 			new Planet(812, 112, 50, 25600, 'green'),
@@ -376,8 +421,8 @@ var planets = [
 // 
 var F = new Vector(170, 0);
 var startForce = function() {
-	F.x = (mouse.pos.x - startPos.x) * 5.5;
-	F.y = (mouse.pos.y - startPos.y) * 5.5;
+	F.x = (mouse.pos.x - path.startPos.x) * 5.5;
+	F.y = (mouse.pos.y - path.startPos.y) * 5.5;
 }
 
 // 
@@ -435,9 +480,9 @@ var calculatePath = function() {
 
 	path.numSteps = 0;
 
-	startPos = planets[0].position;
-	var currPos = new Vector(startPos.x, startPos.y);
-	var prevPos = new Vector(startPos.x, startPos.y);
+	path.startPos = planets[0].position;
+	var currPos = new Vector(path.startPos.x, path.startPos.y);
+	var prevPos = new Vector(path.startPos.x, path.startPos.y);
 
 	while( isRunning ) {
 		var step = new PathStep(new Vector(currPos.x, currPos.y), 3, '#00ff00');
@@ -531,6 +576,34 @@ var renderLine = function(p1, p2, color, lineWidth) {
 	context.stroke();
 }
 
+
+
+// 
+var renderVector = function(p1, p2, color, lineWidth) {
+	context.beginPath();
+	if( lineWidth == undefined ) lineWidth = 1;
+	context.lineWidth = lineWidth;
+	context.strokeStyle = color;
+	context.moveTo(p1.x, p1.y);
+	context.lineTo(p2.x, p2.y);
+	context.closePath();
+	context.stroke();
+
+	var tmp = new Vector(p2.x, p2.y);
+	tmp.normalize();
+
+	context.save();
+	context.translate(p2.x, p2.y);
+	context.rotate(-Math.cos(tmp.x));
+	context.beginPath();
+	context.fillRect(0, 0, 100, 50);
+	context.closePath();
+	context.restore();
+
+
+}
+
+
 // 
 var renderPlanets = function() {
 	context.globalAlpha = 0.5;
@@ -606,7 +679,7 @@ var mainloop = function() {
 
 		// 
 		if( mouse.isVisible ) {
-			renderLine(startPos, mouse.pos, '#808080');
+			renderLine(path.startPos, mouse.pos, '#808080');
 		}
 	}
 
@@ -616,4 +689,9 @@ var mainloop = function() {
 	// 
 	frame = frame + 1;
 };
-setInterval( mainloop, ONE_FRAME_TIME );
+
+$.post( "ajax/get_language_file.php", function( data ) {
+	localizedStrings = data;
+	setInterval( mainloop, ONE_FRAME_TIME );
+}, "json");
+

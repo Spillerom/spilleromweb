@@ -28,6 +28,15 @@
 
 		#menu-panel {
 			position: fixed;
+			top: 0;
+			width: 100%;
+			height: 10%;
+			-webkit-transition:width 1s;
+			transition:width 1s;
+		}
+
+		#properties-panel {
+			position: fixed;
 			bottom: 0;
 			width: 100%;
 			height: 25%;
@@ -35,11 +44,11 @@
 			transition:width 1s;
 		}
 
-		.menu-show {
+		.properties-show {
 			bottom: 0;
 		}
 
-		.menu-hide {
+		.properties-hide {
 			bottom: -25%;
 		}
 
@@ -54,23 +63,23 @@
 </head>
  <body role="document">
  	<canvas id="myCanvas"></canvas>
-
-	<div id="menu-panel" class="menu-show container theme-showcase">
+	
+	<div id="properties-panel" class="menu-show container theme-showcase">
 		<div id="editor-mode" class="label label-danger"></div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Properties</h3>
+				<h3 class="panel-title"><?php LocalizedString('PROPERTIES'); ?></h3>
  			</div>
 			<div class="panel-body">
 				<form role="form">
 					<div class="form-group">
-						<label for="mass">Mass:</label>
+						<label for="mass"><?php LocalizedString('MASS'); ?></label>
 						<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
 					</div>
 
 					<div class="form-group">
-						<label for="mass">Bounce:</label>
+						<label for="mass"><?php LocalizedString('BOUNCE'); ?></label>
 						<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0"/>
 					</div>
 
