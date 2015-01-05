@@ -108,8 +108,7 @@ $language = "en";
 require_once $path.'language/'.$language.'/localizedStrings.php';
 
 // 
-$stdPassword = md5("12345678");
-
+require_once $path.'settings.php';
 
 // 
 $date = date("d.m.Y H.i");
