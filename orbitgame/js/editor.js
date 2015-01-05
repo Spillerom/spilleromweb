@@ -38,6 +38,8 @@ var localizedStrings = null;
 var PLANET_DEFAULT_RADIUS = 30;
 var PLANET_DEFAULT_MASS = 1000;
 
+var PEPES_COSMOLOGICAL_CONSTANT = 5.5;
+
 // 
 var PathStep = function(position, radius, color) {
 	this.position = position;
@@ -95,6 +97,8 @@ $('#mass-slider-container').slider({
 	formater: function(value) {
 		if( selectedPlanet != -1 ) {
 			planets[selectedPlanet].mass = value;
+
+			//var dm = value / 
 		}
 		return 'Current value: ' + value;
 	}
@@ -114,7 +118,7 @@ $('#bounce-slider-container').slider({
 // 
 $('#maxstartforce-slider-container').slider({
 	formater: function(value) {
-
+		maxStartForce = value;
 		return 'Current value: ' + value;
 	}
 });
@@ -213,21 +217,22 @@ var mouseOverPlanet = function() {
 
 // 
 var setSelectedPlanet = function(index) {
-	// 
-	selectedPlanet = index;
-
 	for( var i=0; i<planets.length-1; i++ ) {
 		planets[i].border = 0;
 	}
-	planets[selectedPlanet].border = 5;
 
-	//
-	var massControl = $("#mass-slider-container").slider();
-	massControl.slider('setValue', planets[selectedPlanet].mass);
+	if( index > -1 ) {
+		selectedPlanet = index;
+		planets[selectedPlanet].border = 5;
 
-	//
-	var bounceControl = $("#bounce-slider-container").slider();
-	bounceControl.slider('setValue', planets[selectedPlanet].bounce);
+		//
+		var massControl = $("#mass-slider-container").slider();
+		massControl.slider('setValue', planets[selectedPlanet].mass);
+
+		//
+		var bounceControl = $("#bounce-slider-container").slider();
+		bounceControl.slider('setValue', planets[selectedPlanet].bounce);
+	}
 };
 
 //
@@ -319,6 +324,9 @@ var showOpenPanel = function() {
 // 
 var setViewMode = function() {
 	$('#editor-mode').text(localizedStrings.VIEW_MODE);
+
+	// 
+	setSelectedPlanet(-1);
 
 	// 
 	startForce();
@@ -417,30 +425,27 @@ window.addEventListener("keyup", function(event) {
 });
 
 // 
-var Planet = function(x, y, radius, mass, color, border, borderColor) {
+var Planet = function(x, y, radius, mass) {
 	this.position = new Vector(x, y);
 	this.radius = radius;
 	this.mass = mass;
-	this.color = color;
+	this.color = '#ffffff';
 	this.bounce = 0
-	if( border == undefined ) border = 0;
-	this.border = border;
-	if( borderColor == undefined ) borderColor = '#000000';
-	this.borderColor = borderColor;
+	this.border = 0;
+	this.borderColor = '#000000';
 
 }
 
-//var startPos = new Vector(100, 300);
-
+// 
 var planets = [
 			// FIRST ELEMENT = START POS:
-			new Planet(path.startPos.x, path.startPos.y, 10, 1, '#0000FF'),
+			new Planet(path.startPos.x, path.startPos.y, 10, 1),
 			// ...
-			new Planet(412, 212, 60, 64000, 'red'),
-			new Planet(812, 112, 50, 25600, 'green'),
-			new Planet(812, 512, 30, 9600, 'gray'),
-			new Planet(112, 512, 30, 5600, 'gray'),
-			new Planet(800, 300, 30, 9600, 'blue')
+			new Planet(412, 212, 60, 64000),
+			new Planet(812, 112, 50, 25600),
+			new Planet(812, 512, 30, 9600),
+			new Planet(112, 512, 30, 5600),
+			new Planet(800, 300, 30, 9600)
 			];
 
 
@@ -448,12 +453,25 @@ var planets = [
 // CALCULATION ROUTINES:
 //
 
-// 
+// START FORCE: 
 var F = new Vector(170, 0);
+var F_2 = new Vector(0, 0);
 var startForce = function() {
-	F.x = (mouse.pos.x - path.startPos.x) * 5.5;
-	F.y = (mouse.pos.y - path.startPos.y) * 5.5;
+	F_2 = mouse.pos.sub(path.startPos);
+	if( F_2.length() > planets[0].radius ) {
+		var df = planets[0].radius / F_2.length();
+		F_2.x *= df;
+		F_2.y *= df;
+	}
+
+	F.x = F_2.x * PEPES_COSMOLOGICAL_CONSTANT;
+	F.y = F_2.y * PEPES_COSMOLOGICAL_CONSTANT;
 }
+
+// 
+var dec2hex = function(value) {
+    return Number(parseInt(value , 10)).toString(16);
+};
 
 // 
 var intersectionLineCircle = function(p1, p2, planet) {
@@ -571,7 +589,7 @@ var calculatePath = function() {
 // 
 var clearScreen = function() {
 	context.rect(0, 0, canvas.width, canvas.height);
-	context.fillStyle="white";
+	context.fillStyle="#18337C";
 	context.fill();
 };
 
@@ -606,8 +624,6 @@ var renderLine = function(p1, p2, color, lineWidth) {
 	context.stroke();
 }
 
-
-
 // 
 var renderVector = function(p1, p2, color, lineWidth) {
 	context.beginPath();
@@ -629,10 +645,7 @@ var renderVector = function(p1, p2, color, lineWidth) {
 	context.fillRect(0, 0, 100, 50);
 	context.closePath();
 	context.restore();
-
-
-}
-
+};
 
 // 
 var renderPlanets = function() {
@@ -660,12 +673,20 @@ var renderPath = function() {
 	}
 }
 
+// 
+var renderStartForce = function() {
+	if( mouse.isVisible ) {
+		renderLine(path.startPos, path.startPos.add(F_2), '#808080');
+	}
+};
+
 
 //
-// RENDERING ROUTINES:
+// main():
 //
 
-var mainloop = function() {
+// 
+var eventloop = function() {
 	// 
 	mouse.update();
 
@@ -708,9 +729,7 @@ var mainloop = function() {
 		}
 
 		// 
-		if( mouse.isVisible ) {
-			renderLine(path.startPos, mouse.pos, '#808080');
-		}
+		renderStartForce();
 	}
 
 	// 
@@ -723,6 +742,6 @@ var mainloop = function() {
 // 
 $.post( "ajax/get_language_file.php", function( data ) {
 	localizedStrings = data;
-	setInterval( mainloop, ONE_FRAME_TIME );
+	setInterval( eventloop, ONE_FRAME_TIME );
 }, "json");
 

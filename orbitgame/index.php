@@ -92,7 +92,7 @@
 						<form role="form">
 							<div class="form-group">
 								<label for="maxstartforce"><?php LocalizedString('MAX_START_FORCE'); ?></label>
-								<input id="maxstartforce-slider-container" data-slider-id='maxstartforce-slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="500" data-slider-value="0"/>
+								<input id="maxstartforce-slider-container" data-slider-id='maxstartforce-slider' type="text" data-slider-min="0" data-slider-max="500" data-slider-step="10" data-slider-value="0"/>
 							</div>
 						</form>				
 					</div>
