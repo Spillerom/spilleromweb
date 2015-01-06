@@ -32,13 +32,10 @@ var Vector = function(x, y) {
 };
 
 // 
-var localizedStrings = null;
+var settings = null;
 
 // 
-var PLANET_DEFAULT_RADIUS = 30;
-var PLANET_DEFAULT_MASS = 1000;
-
-var PEPES_COSMOLOGICAL_CONSTANT = 5.5;
+var localizedStrings = null;
 
 // 
 var PathStep = function(position, radius, color) {
@@ -91,11 +88,6 @@ var ONE_FRAME_TIME = 1000 / 30;
 
 var editablePlanet = -1;
 var selectedPlanet = -1;
-
-// 
-var calculatePlanetColor = function(mass) {
-
-};
 
 // 
 $('#mass-slider-container').slider({
@@ -294,7 +286,13 @@ var hideMenu = function() {
 
 // 
 var addNewObject = function() {
-	planets.push(new Planet(mouse.pos.x, mouse.pos.y, PLANET_DEFAULT_RADIUS, PLANET_DEFAULT_MASS));
+	planets.push(new Planet(mouse.pos.x, mouse.pos.y, settings.DEFAULT_PLANET_RADIUS, settings.DEFAULT_PLANET_MASS));
+
+	editablePlanet = mouseOverPlanet();
+
+	if( editablePlanet != -1 ) {
+		setSelectedPlanet(editablePlanet);
+	}
 };
 
 // 
@@ -440,20 +438,15 @@ var Planet = function(x, y, radius, mass) {
 	this.position = new Vector(x, y);
 	this.radius = radius;
 	this.mass = mass;
-	this.color = '#ffffff';
 	this.bounce = 0
 	this.border = 0;
 	this.borderColor = '#000000';
 
-	this.updateColor = function() {
-		var dm = 1-(((this.mass-1)) / 9999).toFixed(1);
+	this.getColor = function() {
+		var dm = 1-(((this.mass-1)) / 99999).toFixed(1);
 		var hex = dec2hex(dm * 255);
-		this.color = '#' + hex + hex + hex;
-	}
-
-	var __construct = function() {
-		updateColor();
-	}();
+		return '#' + hex + hex + hex;
+	};
 };
 
 // 
@@ -461,11 +454,6 @@ var planets = [
 			// FIRST ELEMENT = START POS:
 			new Planet(path.startPos.x, path.startPos.y, 100, 1),
 			// ...
-			new Planet(412, 212, 60, 64000),
-			new Planet(812, 112, 50, 25600),
-			new Planet(812, 512, 30, 9600),
-			new Planet(112, 512, 30, 5600),
-			new Planet(800, 300, 30, 9600)
 			];
 
 
@@ -484,8 +472,8 @@ var startForce = function() {
 		F_2.y *= df;
 	}
 
-	F.x = F_2.x * PEPES_COSMOLOGICAL_CONSTANT;
-	F.y = F_2.y * PEPES_COSMOLOGICAL_CONSTANT;
+	F.x = F_2.x * settings.PEPES_COSMOLOGICAL_CONSTANT;
+	F.y = F_2.y * settings.PEPES_COSMOLOGICAL_CONSTANT;
 }
 
 // 
@@ -568,7 +556,7 @@ var calculatePath = function() {
 					if( q!= 0 ) {
 						step.position.x = q.x;
 						step.position.y = q.y;
-						step.color = '#000000';
+						step.color = '#00ff00';
 						step.radius = 9;
 
 						isRunning = false;
@@ -691,12 +679,12 @@ var renderPlanets = function() {
 
 	// FIRST OBJECT IS STARTING POS
 	var planet = planets[0];
-	renderCircle(planet.position.x, planet.position.y, planet.radius, 1, planet.color, true);
+	renderCircle(planet.position.x, planet.position.y, planet.radius, 1, '#ffffff', true);
 
 	// RENDER PLANETS:
 	for( i=1; i<planets.length; i++ ) {
 		planet = planets[i];
-		renderDot(planet.position.x, planet.position.y, planet.radius, planet.color, planet.border, planet.borderColor);
+		renderDot(planet.position.x, planet.position.y, planet.radius, planet.getColor(), planet.border, planet.borderColor);
 	}
 
 	context.globalAlpha = 1;
@@ -704,7 +692,7 @@ var renderPlanets = function() {
 
 // 
 var renderPath = function() {
-	if( path.numSteps > 1 ) {
+	if( (path.numSteps > 1) && (planets.length > 1) ) {
 		for( i=0; i<path.numSteps-1; i++ ) {
 			step = path.steps[i];
 			nextStep = path.steps[i+1];
@@ -786,7 +774,11 @@ var eventloop = function() {
 
 // 
 $.post( "ajax/get_language_file.php", function( data ) {
-	localizedStrings = data;
+	// 
+	settings = data.SETTINGS;
+	localizedStrings = data.LOCALIZED_STRINGS;
+
+	// 
 	setInterval( eventloop, ONE_FRAME_TIME );
 }, "json");
 

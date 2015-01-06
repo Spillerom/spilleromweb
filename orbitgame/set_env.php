@@ -36,7 +36,7 @@ if( !isset($path) ) {
 
 // Include files
 require_once $path.'model/MySqli_proc_DB.php';
-require_once $path.'model/WaterPumpModelManager.php';
+require_once $path.'model/LevelDataManager.php';
 
 ##
 ## SET UP SESSIONS
@@ -52,13 +52,13 @@ switch( $environment ) {
 	// 
 	case Environment::LOCALHOST:
 		// SET UP DB CONNECTION:
-		$appDBHost = '';
-		$appDBUser = '';
-		$appDBPass = '';
-		$appDBName = '';
+		$appDBHost = 'localhost';
+		$appDBUser = 'root';
+		$appDBPass = 'root';
+		$appDBName = 'orbitgame';
 		
 		// 
-		//$sessionKey = md5("WATER_PUMP_COMPLAINT_LOCALHOST");
+		//$sessionKey = md5('Orbitgame - localhost');
 	break;
 	
 	// 
@@ -70,7 +70,7 @@ switch( $environment ) {
 		$appDBName = '';
 		
 		//
-		//$sessionKey = md5("WATER_PUMP_COMPLAINT_STAGE");
+		//$sessionKey = md5("Orbitgame - STAGE");
 	break;
 	
 	// 
@@ -82,33 +82,33 @@ switch( $environment ) {
 		$appDBName = '';
 		
 		//
-		//$sessionKey = md5("WATER_PUMP_COMPLAINT_PROD");
+		//$sessionKey = md5("Orbitgame - LIVE");
 	break;
 }
-/*
+
 // 
 $appDB = new MySqlDB();
 $appDB->Connect($appDBHost, $appDBUser, $appDBPass, $appDBName);
 $appDB->Query('SET NAMES utf8');
 
 ##
-## Initialize the "WaterPumpModel Manager" class
+## Initialize the "LevelData Manager" class
 ##
-$waterPumpModelManager = new WaterPumpModelManager($appDB);
-*/
+$level = new LevelData($appDB);
+
 
 ##
 ## HANDLE LANGUAGE
 ##
 
 // TODO: READ THIS FROM THE USERS SETTINGS
-$language = "en";
-
-// 
-require_once $path.'language/'.$language.'/localizedStrings.php';
 
 // 
 require_once $path.'settings.php';
+
+// 
+require_once $path.'language/'.$settings['LANGUAGE'].'/localizedStrings.php';
+
 
 // 
 $date = date("d.m.Y H.i");

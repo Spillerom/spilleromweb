@@ -77,12 +77,12 @@
 						<form role="form">
 							<div class="form-group">
 								<label for="mass"><?php LocalizedString('MASS'); ?></label>
-								<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="0" data-slider-max="9999" data-slider-step="500" data-slider-value="0"/>
+								<input id="mass-slider-container" data-slider-id='mass-slider' type="text" data-slider-min="<?php Setting('MIN_MASS'); ?>" data-slider-max="<?php Setting('MAX_MASS'); ?>" data-slider-step="<?php Setting('SLIDER_STEP_MASS'); ?>" data-slider-value="0"/>
 							</div>
 
 							<div class="form-group">
 								<label for="mass"><?php LocalizedString('BOUNCE'); ?></label>
-								<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0"/>
+								<input id="bounce-slider-container" data-slider-id='bounce-slider' type="text" data-slider-min="<?php Setting('MIN_BOUNCE'); ?>" data-slider-max="<?php Setting('MAX_BOUNCE'); ?>" data-slider-step="<?php Setting('SLIDER_STEP_BOUNCE'); ?>" data-slider-value="0"/>
 							</div>
 
 							<div id="save-button" class="btn btn-primary"><?php LocalizedString('SAVE'); ?></div>

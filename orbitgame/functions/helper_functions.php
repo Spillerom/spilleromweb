@@ -13,6 +13,12 @@ function LocalizedString($key) {
 	echo $localizedStrings[$key];
 }
 
+//
+function Setting($key) {
+	global $settings;
+	echo $settings[$key];
+}
+
 // 
 function FixDate($date) {
 	$dateComponents = explode('.', $date);
