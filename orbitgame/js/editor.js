@@ -93,12 +93,15 @@ var editablePlanet = -1;
 var selectedPlanet = -1;
 
 // 
+var calculatePlanetColor = function(mass) {
+
+};
+
+// 
 $('#mass-slider-container').slider({
 	formater: function(value) {
 		if( selectedPlanet != -1 ) {
 			planets[selectedPlanet].mass = value + 1;
-
-			//var dm = value / 
 		}
 		return 'Current value: ' + value;
 	}
@@ -154,8 +157,6 @@ canvas.addEventListener("mousemove", function(event) {
 	mouse.pos.x = event.clientX - rect.left;
 	mouse.pos.y = event.clientY - rect.top;
 
-	console.log(mouse.pos);
-
 	// 
 	switch( editorState ) {
 		case EditorState.MOVE_MODE:
@@ -193,9 +194,7 @@ canvas.addEventListener("mousedown", function(event) {
 		setSelectedPlanet(editablePlanet);
 	} else {
 		if( editorState == EditorState.ADD_MODE ) {
-			//addNewObject();
-			console.log(mouse.pos);
-			planets.push(new Planet(mouse.pos.x, mouse.pos.y, PLANET_DEFAULT_RADIUS, PLANET_DEFAULT_MASS));
+			addNewObject();
 		}
 	}
 });
@@ -207,16 +206,24 @@ canvas.addEventListener("mouseup", function(event) {
 // 
 var mouseOverPlanet = function() {
 	var r = new Vector(0, 0);
+
+	var length = Number.MAX_VALUE;
+	var prevLength = Number.MAX_VALUE;
+
+	var mouseOverPlanet = -1;
+
 	for( i=0; i<planets.length; i++ ) {
 		var planet = planets[i];
-		r.x = planet.position.x - mouse.pos.x;
-		r.y = planet.position.y - mouse.pos.y;
+		length = planet.position.sub(mouse.pos).length();
 
-		if( r.length() <= planet.radius ) {
-			return i;
+		if( length <= planet.radius ) {
+			if( length < prevLength ) {
+				mouseOverPlanet = i;
+			}
 		}
 	}
-	return -1;
+
+	return mouseOverPlanet;
 }
 
 // 
@@ -286,10 +293,9 @@ var hideMenu = function() {
 };
 
 // 
-// var addNewObject = function() {
-// 	console.log(mouse.pos);
-// 	planets.push(new Planet(mouse.pos.x, mouse.pos.y, PLANET_DEFAULT_RADIUS, PLANET_DEFAULT_MASS));
-// };
+var addNewObject = function() {
+	planets.push(new Planet(mouse.pos.x, mouse.pos.y, PLANET_DEFAULT_RADIUS, PLANET_DEFAULT_MASS));
+};
 
 // 
 var deleteSelectedObject = function() {
@@ -439,12 +445,21 @@ var Planet = function(x, y, radius, mass) {
 	this.border = 0;
 	this.borderColor = '#000000';
 
-}
+	this.updateColor = function() {
+		var dm = 1-(((this.mass-1)) / 9999).toFixed(1);
+		var hex = dec2hex(dm * 255);
+		this.color = '#' + hex + hex + hex;
+	}
+
+	var __construct = function() {
+		updateColor();
+	}();
+};
 
 // 
 var planets = [
 			// FIRST ELEMENT = START POS:
-			new Planet(path.startPos.x, path.startPos.y, 10, 1),
+			new Planet(path.startPos.x, path.startPos.y, 100, 1),
 			// ...
 			new Planet(412, 212, 60, 64000),
 			new Planet(812, 112, 50, 25600),
@@ -608,6 +623,8 @@ var renderDot = function(x, y, radius, color, border, borderColor) {
 	context.fill();
 
 	if( border > 0 ) {
+		context.setLineDash([0]);
+
 		//context.setLineDash([10]); // well, that became ugly.. 
 		context.lineWidth = border;
 		if( borderColor == undefined ) borderColor = '#000000';
@@ -674,7 +691,7 @@ var renderPlanets = function() {
 
 	// FIRST OBJECT IS STARTING POS
 	var planet = planets[0];
-	renderCircle(planet.position.x, planet.position.y, planet.radius, planet.color, planet.border, planet.borderColor);
+	renderCircle(planet.position.x, planet.position.y, planet.radius, 1, planet.color, true);
 
 	// RENDER PLANETS:
 	for( i=1; i<planets.length; i++ ) {
