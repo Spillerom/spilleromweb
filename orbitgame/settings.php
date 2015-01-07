@@ -5,6 +5,9 @@ $settings = array(
 
 	'BACKGROUND_COLOR' => '#18337C',
 
+	'GRID_SIZE' => 128,
+	'GRID_COLOR' => '#74A3C2',
+
 	'PATH_DOT_COLOR' => '#00ff00',
 	'PATH_INTERSECT_DOT_COLOR' => '#000000',
 

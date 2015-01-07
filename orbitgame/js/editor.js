@@ -462,7 +462,6 @@ $.post( "ajax/get_language_file.php", function( data ) {
 
 
 	// GRID ROUTINES:
-	var gridSize = 128;
 
 	// 
 	var array = [];
@@ -471,34 +470,40 @@ $.post( "ajax/get_language_file.php", function( data ) {
 	var buildGrid = function() {
 		array = [];
 		array.length = 0;
+		var gridSize = settings.GRID_SIZE;
 		for( var y=0; y<gridSize; y++ ) {
 			for( var x=0; x<gridSize; x++ ) {
-				array.push(new Vector((x * ((canvas.width*2) / gridSize)) - canvas.width / 2, (y * ((canvas.height*2) / gridSize) ) - canvas.width / 2 ));
+				array.push( new Vector( (x * ((canvas.width*2) / gridSize)) - canvas.width / 2 , (y * ((canvas.height*2) / gridSize)) - canvas.width / 2) );
 			}
 		}
 	};
 
 	// 
-	var COG = function(planet) {
+	var COG = function(planets) {
+		var gridSize = settings.GRID_SIZE;
 		var drag = 0;
 		var a = 0;
 		var dv = new Vector(0, 0);
 		for( var i=0; i<(gridSize*gridSize); i++ ) {
-			// 
-			dv.x = planet.position.x - array[i].x;
-			dv.y = planet.position.y - array[i].y;
+			for( j=1; j<planets.length; j++ ) {
+				var planet = planets[j];
 
-			// 
-			a = dv.length();
+				// 
+				dv.x = planet.position.x - array[i].x;
+				dv.y = planet.position.y - array[i].y;
 
-			// 
-			drag = 1 / ((a*a) / planet.mass);
-			drag = Math.max(0, drag);
-			drag = Math.min(1, drag);
+				// 
+				a = dv.length();
 
-			// 			
-			array[i].x += (dv.x * drag);
-			array[i].y += (dv.y * drag);
+				// 
+				drag = 1 / ((a*a) / planet.mass);
+				drag = Math.max(0, drag);
+				drag = Math.min(1, drag);
+
+				// 	
+				array[i].x += (dv.x * drag);
+				array[i].y += (dv.y * drag);
+			}
 		}
 	};
 
@@ -608,7 +613,7 @@ $.post( "ajax/get_language_file.php", function( data ) {
 
 				}
 
-				drag = 1/(((r.length()*r.length())) / planet.mass);
+				drag = 1/((r.length()*r.length()) / planet.mass);
 
 				F.x += r.x * drag;
 				F.y += r.y * drag;
@@ -645,7 +650,9 @@ $.post( "ajax/get_language_file.php", function( data ) {
 
 	// 
 	var renderGrid = function() {
+		var gridSize = settings.GRID_SIZE;
 		for( var i=0; i<((gridSize-1)*(gridSize-1)); i++ ) {
+
 			var render = true;
 			for( c=0; c<(gridSize-1); c++ ) {
 				if( i == ((gridSize*c)-1) ) {
@@ -672,6 +679,7 @@ $.post( "ajax/get_language_file.php", function( data ) {
 				context.lineTo(x, y);
 
 				// 
+				context.strokeStyle = settings.GRID_COLOR;
 				context.stroke();
 			}
 		}
@@ -808,10 +816,12 @@ $.post( "ajax/get_language_file.php", function( data ) {
 
 		// RENDER GRID:
 		buildGrid();
-		for( i=1; i<planets.length; i++ ) {
-			var planet = planets[i];
-			COG(planet);
-		}
+		// for( i=1; i<planets.length; i++ ) {
+		// 	var planet = planets[i];
+		// 	COG(planet);
+		// }
+		COG(planets);
+
 		renderGrid();		
 
 

@@ -27,6 +27,7 @@
 	canvas.width = 512;
 	canvas.height = 512;
 
+
 	var gridSize = 128;
 
 	// 
