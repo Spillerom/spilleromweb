@@ -27,9 +27,9 @@
 	canvas.width = 512;
 	canvas.height = 512;
 
-    var gridSize = 128;
+	var gridSize = 128;
 
-    // 
+	// 
 	var array = [];
 
 	// 
@@ -41,40 +41,40 @@
 
 	var context = canvas.getContext('2d');
 
-    // 
-    var point = function(x, y, mass, radius, inverted) {
-    	// 
-    	this.x = x;
-    	this.y = y;
-    	this.mass = mass;
-    	this.radius = radius;
-    	this.inverted = inverted;
+	// 
+	var point = function(x, y, mass, radius, inverted) {
+		// 
+		this.x = x;
+		this.y = y;
+		this.mass = mass;
+		this.radius = radius;
+		this.inverted = inverted;
 
-    	// 
-    	this.length = function() {
-    		return Math.sqrt(this.x*this.x + this.y*this.y);
-    	};
-    };
+		// 
+		this.length = function() {
+			return Math.sqrt(this.x*this.x + this.y*this.y);
+		};
+	};
 
-    // 
-    var clearScreen = function() {
+	// 
+	var clearScreen = function() {
 		context.rect(0, 0, canvas.width, canvas.height);
 		context.fillStyle="white";
 		context.fill();
-    };
+	};
 
-    // 
-    var buildGrid = function() {
+	// 
+	var buildGrid = function() {
 		array = [];
 		for( var y=0; y<gridSize; y++ ) {
 			for( var x=0; x<gridSize; x++ ) {
 				array.push(new point((x * ((canvas.width*2) / gridSize)) - canvas.width / 2, (y * ((canvas.height*2) / gridSize) ) - canvas.width / 2 ));
 			}
 		}
-    };
+	};
 
 	// 
-    var COG = function(cog) {
+	var COG = function(cog) {
 		for( var i=0; i<(gridSize)*(gridSize); i++ ) {
 			var dv = new point(array[i].x - cog.x, array[i].y - cog.y, 1);
 
@@ -87,17 +87,17 @@
 			array[i].x -= (dv.x * drag);
 			array[i].y -= (dv.y * drag);
 		}
-    };
+	};
 
 	// 
-    var COGs = function(cogArray) {
+	var COGs = function(cogArray) {
 		for( var j=0; j<cogArray.length; j++ ) {
 			COG(cogArray[j]);
 		}
-    };
+	};
 
-    // 
-    var renderGrid = function() {
+	// 
+	var renderGrid = function() {
 		for( var i=0; i<((gridSize-1)*(gridSize-1)); i++ ) {
 			var render = true;
 			for( c=0; c<(gridSize-1); c++ ) {
@@ -109,18 +109,18 @@
 			if( render ) {
 				context.beginPath();
 
-		   		// 
-		     	var x = array[i].x;
-		     	var y = array[i].y;
+				// 
+				var x = array[i].x;
+				var y = array[i].y;
 				context.moveTo(x, y);
 
 				// 
-		    	x = array[i + 1].x;
+				x = array[i + 1].x;
 				y = array[i + 1].y;
 				context.lineTo(x, y);
 
 				// 
-		    	x = array[i + (gridSize+1)].x;
+				x = array[i + (gridSize+1)].x;
 				y = array[i + (gridSize+1)].y;
 				context.lineTo(x, y);
 
@@ -154,10 +154,10 @@
 		renderGrid();
 
 		// 
-        frame += 1;
-    };
-    setInterval( mainloop, ONE_FRAME_TIME );
-    //mainloop();
+		frame += 1;
+	};
+	setInterval( mainloop, ONE_FRAME_TIME );
+	//mainloop();
 
 
 </script>
