@@ -6,25 +6,25 @@ date_default_timezone_set('Europe/Amsterdam');
 
 // 
 class Environment {
-	const LOCALHOST = 1;
-	const STAGE = 2;
-	const PROD = 3;
+	const OFFLINE = 1;
+	const LOCALHOST = 2;
+	const STAGE = 3;
+	const PROD = 4;
 }
 
 
 //
-$environment = Environment::LOCALHOST;
+$environment = Environment::OFFLINE;
+//$environment = Environment::LOCALHOST;
 //$environment = Environment::STAGE;
 //$environment = Environment::PROD;
 
 // REPORT ALL PHP ERRORS IF ON LOCALHOST:
-if( (Environment::LOCALHOST == $environment) ) {
+if( (Environment::OFFLINE == $environment) || (Environment::LOCALHOST == $environment) ) {
 	ini_set ("display_errors", "1");
 	error_reporting(E_ALL);
 }
 
-// 
-$debugging = true;
 
 ##
 ## This file sets up the environoment for each page
@@ -86,15 +86,19 @@ switch( $environment ) {
 	break;
 }
 
-// 
-$appDB = new MySqlDB();
-$appDB->Connect($appDBHost, $appDBUser, $appDBPass, $appDBName);
-$appDB->Query('SET NAMES utf8');
 
-##
-## Initialize the "LevelData Manager" class
-##
-$level = new LevelData($appDB);
+// 
+if( $environment != Environment::OFFLINE ) {
+	// 
+	$appDB = new MySqlDB();
+	$appDB->Connect($appDBHost, $appDBUser, $appDBPass, $appDBName);
+	$appDB->Query('SET NAMES utf8');
+
+	##
+	## Initialize the "LevelData Manager" class
+	##
+	$level = new LevelData($appDB);
+}
 
 
 ##

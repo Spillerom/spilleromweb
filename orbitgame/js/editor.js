@@ -473,7 +473,8 @@ $.post( "ajax/get_language_file.php", function( data ) {
 		var gridSize = settings.GRID_SIZE;
 		for( var y=0; y<gridSize; y++ ) {
 			for( var x=0; x<gridSize; x++ ) {
-				array.push( new Vector( (x * ((canvas.width*2) / gridSize)) - canvas.width / 2 , (y * ((canvas.height*2) / gridSize)) - canvas.width / 2) );
+				//array.push( new Vector( (x * ((canvas.width*2) / gridSize)) - canvas.width / 2 , (y * ((canvas.height*2) / gridSize)) - canvas.width / 2) );
+				array.push( new Vector( (x * ((2048*2) / gridSize)) - canvas.width / 2 , (y * ((2048*2) / gridSize)) - canvas.width / 2) );
 			}
 		}
 	};
@@ -484,26 +485,39 @@ $.post( "ajax/get_language_file.php", function( data ) {
 		var drag = 0;
 		var a = 0;
 		var dv = new Vector(0, 0);
+		var tmp = new Vector(0, 0);
 		for( var i=0; i<(gridSize*gridSize); i++ ) {
+			tmp.x = array[i].x;
+			tmp.y = array[i].y;
 			for( j=1; j<planets.length; j++ ) {
 				var planet = planets[j];
 
 				// 
-				dv.x = planet.position.x - array[i].x;
-				dv.y = planet.position.y - array[i].y;
+				//dv.x = planet.position.x - array[i].x;
+				//dv.y = planet.position.y - array[i].y;
+				dv.x = planet.position.x - tmp.x;
+				dv.y = planet.position.y - tmp.y;
 
 				// 
 				a = dv.length();
 
+
 				// 
-				drag = 1 / ((a*a) / planet.mass);
+				drag = (1 / ((a*a*a) / planet.mass)) * planet.radius;
+
+				//drag = Math.sqrt(planet.mass / (a*a*a));
+
 				drag = Math.max(0, drag);
 				drag = Math.min(1, drag);
 
 				// 	
-				array[i].x += (dv.x * drag);
-				array[i].y += (dv.y * drag);
+				tmp.x += (dv.x * drag);
+				tmp.y += (dv.y * drag);
+
 			}
+
+			array[i].x = tmp.x;
+			array[i].y = tmp.y;
 		}
 	};
 
